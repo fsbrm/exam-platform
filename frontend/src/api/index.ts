@@ -19,17 +19,18 @@ api.interceptors.response.use(
   response => response.data,
   error => {
     if (error.response?.status === 401) {
-      // Don't redirect on login/register requests - let the page handle it
       const isAuthRequest = error.config?.url?.includes('/auth/login') || error.config?.url?.includes('/auth/register')
       if (!isAuthRequest) {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
         router.push('/login')
+        ElMessage.error(error.response?.data?.message || '登录已过期，请重新登录')
       }
-      ElMessage.error(error.response?.data?.message || (isAuthRequest ? '登录失败' : '登录已过期，请重新登录'))
+      // Auth requests: let the page component handle error display
     } else if (error.response?.status === 403) {
       ElMessage.error(error.response?.data?.message || '权限不足')
-    } else {
+    } else if (!error.config?.url?.includes('/auth/')) {
+      // Don't toast for auth pages - they handle their own errors
       ElMessage.error(error.response?.data?.message || '请求失败')
     }
     return Promise.reject(error)
