@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new BusinessException(401, "用户名或密码错误");
         }
-        if (user.getStatus() == 0) {
+        if (user.getStatus() != null \&\& user.getStatus() == 0) {
             throw new BusinessException(403, "账号已被禁用");
         }
         String token = jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());

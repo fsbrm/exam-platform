@@ -30,6 +30,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<?> handleException(Exception e) {
         log.error("系统异常: ", e);
-        return Result.error("服务器内部错误");
+        return Result.error(500, "服务器内部错误: " + e.getClass().getSimpleName() + " - " + (e.getMessage() != null ? e.getMessage() : ""));
     }
 }
