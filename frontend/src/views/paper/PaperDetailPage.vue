@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="paper-detail">
     <!-- Top Bar -->
     <div class="pd-topbar">
@@ -60,7 +60,7 @@
               }"
               @click="selectOption(opt.key)">
               <span class="pd-opt-key">{{ opt.key }}</span>
-              <span class="pd-opt-val">{{ opt.value }}</span>
+              <span class="pd-opt-val"><span v-html="opt.value"></span></span>
               <span class="pd-opt-icon" v-if="showResult && opt.key === currentQuestion.answer">&#10003;</span>
               <span class="pd-opt-icon err" v-if="showResult && selectedAnswer === opt.key && opt.key !== currentQuestion.answer">&#10007;</span>
             </div>

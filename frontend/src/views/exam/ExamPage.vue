@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="exam-page">
     <!-- Setup -->
     <div v-if="!started" class="exam-setup card">
@@ -50,7 +50,7 @@
             class="option-item" :class="{ selected: isSelected(opt.key) }"
             @click="selectOption(opt.key)">
             <span class="option-key">{{ opt.key }}</span>
-            <span class="option-value">{{ opt.value }}</span>
+            <span class="option-value"><span v-html="opt.value"></span></span>
           </div>
         </div>
 
@@ -59,7 +59,7 @@
             class="option-item" :class="{ selected: selectedAnswer === opt.key }"
             @click="selectOption(opt.key)">
             <span class="option-key">{{ opt.key === 'T' ? '✓' : '✗' }}</span>
-            <span class="option-value">{{ opt.value }}</span>
+            <span class="option-value"><span v-html="opt.value"></span></span>
           </div>
         </div>
 

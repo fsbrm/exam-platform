@@ -59,7 +59,7 @@
               }"
               @click="selectOption(opt.key)">
               <span class="qv-opt-key">{{ opt.key }}</span>
-              <span class="qv-opt-val">{{ opt.value }}</span>
+              <span class="qv-opt-val"><span v-html="opt.value"></span></span>
               <span v-if="showResult && opt.key === question.answer" class="qv-opt-mark ok">&#10003;</span>
               <span v-else-if="showResult && selectedAnswer === opt.key && opt.key !== question.answer" class="qv-opt-mark err">&#10007;</span>
             </div>
