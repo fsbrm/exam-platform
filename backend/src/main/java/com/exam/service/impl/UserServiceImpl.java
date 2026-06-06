@@ -3,6 +3,7 @@ package com.exam.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.exam.common.BusinessException;
 import com.exam.dto.LoginDTO;
+import com.exam.dto.ProfileUpdateDTO;
 import com.exam.dto.RegisterDTO;
 import com.exam.entity.InviteCode;
 import com.exam.entity.User;
@@ -45,7 +46,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public LoginVO register(RegisterDTO dto) {
-        // Validate invite code
         InviteCode inviteCode = inviteCodeMapper.selectOne(
                 new LambdaQueryWrapper<InviteCode>().eq(InviteCode::getCode, dto.getInviteCode())
         );
@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
         user.setStatus(1);
         userMapper.insert(user);
 
-        // Mark invite code as used
         inviteCode.setUsed(1);
         inviteCode.setUsedBy(user.getId());
         inviteCode.setUsedAt(LocalDateTime.now());
@@ -88,6 +87,26 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new BusinessException("用户不存在");
         }
+        return buildLoginVO(user, null);
+    }
+
+    @Override
+    @Transactional
+    public LoginVO updateProfile(Long userId, ProfileUpdateDTO dto) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+        if (dto.getNickname() != null) {
+            user.setNickname(dto.getNickname());
+        }
+        if (dto.getEmail() != null) {
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getAvatar() != null) {
+            user.setAvatar(dto.getAvatar());
+        }
+        userMapper.updateById(user);
         return buildLoginVO(user, null);
     }
 

@@ -11,7 +11,6 @@ interface UserInfo {
 }
 
 export const useUserStore = defineStore('user', () => {
-  // Restore user from localStorage on init
   const savedUser = localStorage.getItem('user')
   const user = ref<UserInfo | null>(savedUser ? JSON.parse(savedUser) : null)
   const token = ref<string>(localStorage.getItem('token') || '')
@@ -48,5 +47,14 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  return { user, token, isLoggedIn, isAdmin, setUser, setToken, logout, fetchProfile }
+  async function updateProfile(data: { nickname?: string; email?: string }) {
+    const res: any = await api.put('/auth/profile', data)
+    if (res.code === 200) {
+      user.value = res.data
+      localStorage.setItem('user', JSON.stringify(res.data))
+    }
+    return res
+  }
+
+  return { user, token, isLoggedIn, isAdmin, setUser, setToken, logout, fetchProfile, updateProfile }
 })
