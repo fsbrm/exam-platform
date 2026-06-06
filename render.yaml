@@ -2,7 +2,7 @@ services:
   - type: web
     name: exam-platform-api
     runtime: docker
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    repo: https://github.com/fsbrm/exam-platform
     branch: main
     rootDir: backend
     dockerfilePath: ./Dockerfile

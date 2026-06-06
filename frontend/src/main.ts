@@ -18,4 +18,13 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
+
+// GitHub Pages SPA fallback: restore route after 404.html redirect
+const redirect = sessionStorage.getItem("redirect")
+if (redirect) {
+  sessionStorage.removeItem("redirect")
+  const path = redirect.replace("/exam-platform", "") || "/"
+  router.replace(path)
+}
+
 app.mount('#app')
