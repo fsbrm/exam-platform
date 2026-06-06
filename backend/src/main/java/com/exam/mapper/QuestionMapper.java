@@ -23,6 +23,9 @@ public interface QuestionMapper extends BaseMapper<Question> {
     @Select("SELECT knowledge_id FROM question_knowledge WHERE question_id = #{questionId}")
     List<Long> selectKnowledgeIdsByQuestion(@Param("questionId") Long questionId);
 
+    @Select("<script>SELECT question_id, knowledge_id FROM question_knowledge WHERE question_id IN <foreach collection='questionIds' item='id' open='(' separator=',' close=')'>#{id}</foreach></script>")
+    List<Map<String, Object>> selectKnowledgeIdsByQuestions(@Param("questionIds") List<Long> questionIds);
+
     @Select("SELECT DISTINCT q.*, pq.question_number as questionNumber FROM question q INNER JOIN question_knowledge qk ON q.id = qk.question_id LEFT JOIN paper_question pq ON q.id = pq.question_id WHERE qk.knowledge_id = #{knowledgeId} AND q.status = 1 ORDER BY q.year, pq.question_number")
     List<Question> selectByKnowledgeId(@Param("knowledgeId") Long knowledgeId);
 

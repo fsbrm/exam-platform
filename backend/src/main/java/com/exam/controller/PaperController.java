@@ -45,6 +45,8 @@ public class PaperController {
         Long userId = JwtAuthenticationFilter.getCurrentUserId();
         List<Map<String, Object>> papers = examPaperMapper.selectWithCount(subjectId);
 
+        // Collect all question IDs first for batch loading
+        List<Long> allQuestionIds = new ArrayList<>();
         List<Map<String, Object>> years = new ArrayList<>();
         for (Map<String, Object> paper : papers) {
             Map<String, Object> yearData = new LinkedHashMap<>();
@@ -64,16 +66,32 @@ public class PaperController {
                 qm.put("difficulty", q.get("difficulty"));
                 qm.put("content", q.get("content"));
                 qm.put("answer", q.get("answer"));
-
-                Long qid = ((Number) q.get("id")).longValue();
-                qm.put("knowledgeIds", questionMapper.selectKnowledgeIdsByQuestion(qid));
                 qm.put("done", false);
                 qm.put("correct", null);
                 qm.put("mastery", null);
                 qList.add(qm);
+                allQuestionIds.add(((Number) q.get("id")).longValue());
             }
             yearData.put("questions", qList);
             years.add(yearData);
+        }
+
+        // Batch load knowledge IDs for ALL questions at once
+        Map<Long, List<Long>> knowledgeIdMap = new HashMap<>();
+        if (!allQuestionIds.isEmpty()) {
+            List<Map<String, Object>> kpRows = questionMapper.selectKnowledgeIdsByQuestions(allQuestionIds);
+            for (Map<String, Object> row : kpRows) {
+                Long qid = ((Number) row.get("question_id")).longValue();
+                Long kid = ((Number) row.get("knowledge_id")).longValue();
+                knowledgeIdMap.computeIfAbsent(qid, k -> new ArrayList<>()).add(kid);
+            }
+        }
+        // Assign knowledge IDs to each question
+        for (Map<String, Object> yd : years) {
+            for (Map<String, Object> qm : (List<Map<String, Object>>) yd.get("questions")) {
+                Long qid = ((Number) qm.get("questionId")).longValue();
+                qm.put("knowledgeIds", knowledgeIdMap.getOrDefault(qid, Collections.emptyList()));
+            }
         }
 
         Map<String, Object> result = new LinkedHashMap<>();
