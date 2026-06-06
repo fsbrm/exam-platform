@@ -33,6 +33,7 @@ public class QuestionServiceImpl implements QuestionService {
         wrapper.eq(Question::getStatus, 1);
         if (dto.getSubjectId() != null) wrapper.eq(Question::getSubjectId, dto.getSubjectId());
         if (dto.getChapterId() != null) wrapper.eq(Question::getChapterId, dto.getChapterId());
+        if (dto.getYear() != null) wrapper.eq(Question::getYear, dto.getYear());
         if (dto.getType() != null) wrapper.eq(Question::getType, dto.getType());
         if (dto.getDifficulty() != null) wrapper.eq(Question::getDifficulty, dto.getDifficulty());
         if (dto.getKeyword() != null) wrapper.like(Question::getContent, dto.getKeyword());

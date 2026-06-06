@@ -18,6 +18,9 @@
         <el-option label="简单" value="EASY" /><el-option label="中等" value="MEDIUM" /><el-option label="困难" value="HARD" />
       </el-select>
       <el-input v-model="fKeyword" placeholder="搜索题目内容..." size="small" style="width:200px" clearable @change="loadQ" @clear="loadQ" />
+      <el-select v-model="fYear" placeholder="年份" clearable size="small" @change="loadQ">
+        <el-option v-for="y in years" :key="y" :label="String(y)" :value="y" />
+      </el-select>
       <el-select v-model="fChapter" placeholder="章节" clearable size="small" @change="loadQ">
         <el-option v-for="c in allChapters" :key="c.id" :label="c.name" :value="c.id" />
       </el-select>
@@ -112,7 +115,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 const loading = ref(false), saving = ref(false), showDlg = ref(false)
 const questions = ref<any[]>([]), total = ref(0), pageNum = ref(1)
 const subjects = ref<any[]>([]), allChapters = ref<any[]>([])
-const fSubject = ref<number|null>(null), fType = ref(''), fDifficulty = ref(''), fKeyword = ref(''), fChapter = ref<number|null>(null)
+const fSubject = ref<number|null>(null), fYear = ref<number|null>(null), fType = ref(''), fDifficulty = ref(''), fKeyword = ref(''), fChapter = ref<number|null>(null)
+const years = Array.from({length: 2025-2009+1},(_,i)=>2009+i)
 const editing = ref<any>(null)
 const form = ref({
   subjectId: 1 as number|null, chapterId: null as number|null, year: null as number|null,
@@ -145,6 +149,7 @@ async function loadQ(){
     if(fSubject.value) params.subjectId = fSubject.value
     if(fType.value) params.type = fType.value
     if(fDifficulty.value) params.difficulty = fDifficulty.value
+    if(fYear.value) params.year = fYear.value
     if(fKeyword.value) params.keyword = fKeyword.value
     if(fChapter.value) params.chapterId = fChapter.value
     const res:any = await api.get('/admin/questions',{params})
