@@ -1,14 +1,14 @@
 ﻿# Cloud/Railway deployment profile
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=true&requireSSL=true
-    username: ${MYSQLUSER}
-    password: ${MYSQLPASSWORD}
+    url: jdbc:mysql://${MYSQLHOST:localhost}:${MYSQLPORT:3306}/${MYSQLDATABASE:exam_platform}?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=true&requireSSL=true
+    username: ${MYSQLUSER:root}
+    password: ${MYSQLPASSWORD:}
   data:
     redis:
-      host: ${REDISHOST}
-      port: ${REDISPORT}
-      password: ${REDISPASSWORD}
+      host: ${REDISHOST:localhost}
+      port: ${REDISPORT:6379}
+      password: ${REDISPASSWORD:}
   sql:
     init:
       mode: always
