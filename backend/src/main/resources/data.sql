@@ -1,4 +1,4 @@
-﻿-- Invite code table
+-- Invite code table
 CREATE TABLE IF NOT EXISTS invite_code (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     code VARCHAR(32) NOT NULL UNIQUE,
