@@ -11,7 +11,7 @@
           <div v-for="subj in filteredTree" :key="'s'+subj.id" class="kp-l1">
             <div class="kp-l1-header" :class="{ selected: activeNode?.type==='subject' && activeNode?.id===subj.id }" @click="selectNode('subject', subj.id)">
               <span class="kp-arrow" @click.stop="subj._open = !subj._open">{{ subj._open ? '▼' : '▶' }}</span>
-              <span class="kp-l1-icon">{{ subj.icon }}</span>
+              <span class="kp-l1-icon">{{ subjectIcon(subj.name) }}</span>
               <span class="kp-l1-name">{{ subj.name }}</span>
               <span class="kp-l1-badge">{{ subj.totalQuestions }}题</span>
               <span v-if="activeNode?.type==='subject' && activeNode?.id===subj.id" class="kp-btn" @click.stop="goPractice()">去刷题 &#8594;</span>
@@ -53,7 +53,7 @@
         <div v-if="showProgress" class="kp-progress">
           <div class="kp-pg-title">学习进度总览</div>
           <div v-for="subj in filteredTree" :key="'pg'+subj.id" class="kp-pg-subject">
-            <div class="kp-pg-subj-name">{{ subj.icon }} {{ subj.name }}</div>
+            <div class="kp-pg-subj-name">{{ subjectIcon(subj.name) }} {{ subj.name }}</div>
             <el-progress :percentage="subj._pct || 0" :stroke-width="6" :color="'#4f7cff'" />
           </div>
         </div>
@@ -292,6 +292,15 @@ function cellClick(yd: any, qnum: number, event?: MouseEvent) {
 }
 
 // goPractice() handles all levels
+
+function subjectIcon(name: string): string {
+  const map: Record<string, string> = {
+    '数据结构': '🌲', '计算机组成原理': '💻', '操作系统': '⚙️', '计算机网络': '🌐',
+    'Monitor': '🌲', 'Cpu': '💻', 'Operation': '⚙️', 'Connection': '🌐',
+    'DS': '🌲', 'CO': '💻', 'OS': '⚙️', 'CN': '🌐',
+  }
+  return map[name] || '📚'
+}
 
 function stripHtml(html: string) {
   if (!html) return '(暂无内容)'
