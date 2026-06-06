@@ -38,12 +38,23 @@ public class WrongQuestionController {
             @RequestParam(required = false) String yearMonth) {
         Long userId = JwtAuthenticationFilter.getCurrentUserId();
         if (userId == null) return Result.error(401, "未登录");
-        List<Map<String, Object>> questions = wrongQuestionMapper.selectEnhanced(
-                userId, subjectId, chapterId, mastery, favoriteOnly, yearMonth);
-        // Build stats
+        List<Map<String, Object>> all = wrongQuestionMapper.selectEnhancedAll(userId);
+        // Filter in Java
+        List<Map<String, Object>> filtered = new ArrayList<>();
+        for (Map<String, Object> q : all) {
+            if (subjectId != null && !subjectId.equals(q.get("subject_id"))) continue;
+            if (chapterId != null && !chapterId.equals(q.get("chapter_id"))) continue;
+            if (mastery != null && !mastery.isEmpty() && !mastery.equals(q.get("mastery"))) continue;
+            if (favoriteOnly != null && favoriteOnly && !Integer.valueOf(1).equals(q.get("is_favorited"))) continue;
+            if (yearMonth != null && !yearMonth.isEmpty()) {
+                Object lastWrong = q.get("last_wrong_at");
+                if (lastWrong == null || !lastWrong.toString().substring(0, 7).equals(yearMonth)) continue;
+            }
+            filtered.add(q);
+        }
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("questions", questions);
-        result.put("total", questions.size());
+        result.put("questions", filtered);
+        result.put("total", filtered.size());
         return Result.success(result);
     }
 
