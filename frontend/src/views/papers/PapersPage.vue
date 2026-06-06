@@ -14,7 +14,6 @@
               <span class="kp-l1-icon">{{ subjectIcon(subj.name) }}</span>
               <span class="kp-l1-name">{{ subj.name }}</span>
               <span class="kp-l1-badge">{{ subj.totalQuestions }}题</span>
-              <span v-if="activeNode?.type==='subject' && activeNode?.id===subj.id" class="kp-btn" @click.stop="goPractice()">去刷题 &#8594;</span>
 
             </div>
 
