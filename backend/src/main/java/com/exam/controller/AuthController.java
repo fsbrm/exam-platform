@@ -2,7 +2,6 @@ package com.exam.controller;
 
 import com.exam.common.Result;
 import com.exam.dto.LoginDTO;
-import com.exam.dto.ProfileUpdateDTO;
 import com.exam.dto.RegisterDTO;
 import com.exam.security.JwtAuthenticationFilter;
 import com.exam.service.UserService;
@@ -38,13 +37,5 @@ public class AuthController {
         Long userId = JwtAuthenticationFilter.getCurrentUserId();
         if (userId == null) return Result.error(401, "未登录");
         return Result.success(userService.getProfile(userId));
-    }
-
-    @Operation(summary = "更新个人信息")
-    @PutMapping("/profile")
-    public Result<?> updateProfile(@Valid @RequestBody ProfileUpdateDTO dto) {
-        Long userId = JwtAuthenticationFilter.getCurrentUserId();
-        if (userId == null) return Result.error(401, "未登录");
-        return Result.success(userService.updateProfile(userId, dto));
     }
 }
