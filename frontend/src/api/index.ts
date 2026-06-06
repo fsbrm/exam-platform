@@ -19,10 +19,16 @@ api.interceptors.response.use(
   response => response.data,
   error => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      router.push('/login')
-      ElMessage.error('登录已过期，请重新登录')
+      // Don't redirect on login/register requests - let the page handle it
+      const isAuthRequest = error.config?.url?.includes('/auth/login') || error.config?.url?.includes('/auth/register')
+      if (!isAuthRequest) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        router.push('/login')
+      }
+      ElMessage.error(error.response?.data?.message || (isAuthRequest ? '登录失败' : '登录已过期，请重新登录'))
+    } else if (error.response?.status === 403) {
+      ElMessage.error(error.response?.data?.message || '权限不足')
     } else {
       ElMessage.error(error.response?.data?.message || '请求失败')
     }

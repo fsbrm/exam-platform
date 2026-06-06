@@ -1,6 +1,7 @@
 package com.exam.controller;
 
 import com.exam.common.Result;
+import com.exam.mapper.QuestionMapper;
 import com.exam.mapper.WrongQuestionMapper;
 import com.exam.security.JwtAuthenticationFilter;
 import com.exam.service.WrongQuestionService;
@@ -19,6 +20,7 @@ public class WrongQuestionController {
 
     private final WrongQuestionService wrongQuestionService;
     private final WrongQuestionMapper wrongQuestionMapper;
+    private final QuestionMapper questionMapper;
 
     @Operation(summary = "错题列表")
     @GetMapping
@@ -33,9 +35,12 @@ public class WrongQuestionController {
     public Result<?> enhanced(
             @RequestParam(required = false) Long subjectId,
             @RequestParam(required = false) Long chapterId,
+            @RequestParam(required = false) Long knowledgeId,
             @RequestParam(required = false) String mastery,
             @RequestParam(required = false) Boolean favoriteOnly,
-            @RequestParam(required = false) String yearMonth) {
+            @RequestParam(required = false) String yearMonth,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
         Long userId = JwtAuthenticationFilter.getCurrentUserId();
         if (userId == null) return Result.error(401, "未登录");
         List<Map<String, Object>> all = wrongQuestionMapper.selectEnhancedAll(userId);
@@ -44,11 +49,25 @@ public class WrongQuestionController {
         for (Map<String, Object> q : all) {
             if (subjectId != null && !subjectId.equals(q.get("subject_id"))) continue;
             if (chapterId != null && !chapterId.equals(q.get("chapter_id"))) continue;
+            if (knowledgeId != null) {
+                // Check if question has this knowledge point
+                List<Long> kpIds = questionMapper.selectKnowledgeIdsByQuestion(
+                    ((Number) q.get("question_id")).longValue());
+                if (!kpIds.contains(knowledgeId)) continue;
+            }
             if (mastery != null && !mastery.isEmpty() && !mastery.equals(q.get("mastery"))) continue;
             if (favoriteOnly != null && favoriteOnly && !Integer.valueOf(1).equals(q.get("is_favorited"))) continue;
             if (yearMonth != null && !yearMonth.isEmpty()) {
                 Object lastWrong = q.get("last_wrong_at");
                 if (lastWrong == null || !lastWrong.toString().substring(0, 7).equals(yearMonth)) continue;
+            }
+            if (startDate != null && !startDate.isEmpty()) {
+                Object lastWrong = q.get("last_wrong_at");
+                if (lastWrong == null || lastWrong.toString().compareTo(startDate) < 0) continue;
+            }
+            if (endDate != null && !endDate.isEmpty()) {
+                Object lastWrong = q.get("last_wrong_at");
+                if (lastWrong == null || lastWrong.toString().compareTo(endDate) > 0) continue;
             }
             filtered.add(q);
         }
