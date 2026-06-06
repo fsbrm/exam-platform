@@ -1,0 +1,164 @@
+[2m23:36:55[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unexpected token, expected "," (76:89)
+
+D:/桌面/毕设/exam-platform/frontend/src/views/practice/PracticePage.vue
+223|  })
+224|  
+225|  const renderedContent = computed(() => { const img = currentQuestion.value?.image ? <img src=\"\" style=\"max-width:100%;margin:8px 0;border-radius:6px\" /> : ''; return img + renderText(currentQuestion.value?.content || '') })
+   |                                                                                           ^
+226|  
+227|  function renderText(text: string) {[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/桌面/毕设/exam-platform/frontend/src/views/practice/PracticePage.vue[39m:76:89
+[33m  55 |          <div class="progress-info">
+  56 |            <span>第{{ currentIndex + 1 }} / {{ questions.length }} 题</span>
+  57 |            <span>正确率{{ correctPercent }}%（{{ correctCount }}/{{ answeredCount }}题</span>
+     |                                ^
+  58 |          </div>
+  59 |        </div>[39m
+      at constructor (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:7923:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:7900:25)
+      at TypeScriptParserMixin.tsParseBracketedList (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:7940:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:8086:24)
+      at D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:9809:29
+      at TypeScriptParserMixin.tryParse (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6924:20)
+[2m00:00:30[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unexpected character '！'. (257:26)
+
+D:/桌面/毕设/exam-platform/frontend/src/views/practice/PracticePage.vue
+483|      resetState()
+484|    } else {
+485|      ElMessage.success(练习完成！正确率 %)
+   |                            ^
+486|      router.back()
+487|    }[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/桌面/毕设/exam-platform/frontend/src/views/practice/PracticePage.vue[39m:257:26
+[33m  146|                    selected: isSelected(opt.key),
+  147|                    correct: showResult && opt.key === correctAnswer,
+  148|                    wrong: showResult && isSelected(opt.key) && opt.key !== correctAnswer,
+     |                                                                ^
+  149|                    disabled: showResult
+  150|                  }"[39m
+      at constructor (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.getTokenFromCode (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6323:16)
+      at TypeScriptParserMixin.getTokenFromCode (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:10004:11)
+      at TypeScriptParserMixin.nextToken (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:5799:10)
+      at TypeScriptParserMixin.next (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:5709:10)
+      at TypeScriptParserMixin.parseIdentifierName (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:12230:10)
+      at TypeScriptParserMixin.parseIdentifier (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:12198:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:11433:27)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:11098:23)
+[2m00:04:51[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unexpected character '！'. (257:26)
+
+D:/桌面/毕设/exam-platform/frontend/src/views/practice/PracticePage.vue
+483|      resetState()
+484|    } else {
+485|      ElMessage.success(练习完成！正确率 %)
+   |                            ^
+486|      router.back()
+487|    }[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/桌面/毕设/exam-platform/frontend/src/views/practice/PracticePage.vue[39m:257:26
+[33m  146|                    selected: isSelected(opt.key),
+  147|                    correct: showResult && opt.key === correctAnswer,
+  148|                    wrong: showResult && isSelected(opt.key) && opt.key !== correctAnswer,
+     |                                                                ^
+  149|                    disabled: showResult
+  150|                  }"[39m
+      at constructor (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.getTokenFromCode (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6323:16)
+      at TypeScriptParserMixin.getTokenFromCode (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:10004:11)
+      at TypeScriptParserMixin.nextToken (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:5799:10)
+      at TypeScriptParserMixin.next (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:5709:10)
+      at TypeScriptParserMixin.parseIdentifierName (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:12230:10)
+      at TypeScriptParserMixin.parseIdentifier (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:12198:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:11433:27)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:11098:23)
+[2m00:05:02[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unexpected character '！'. (257:26)
+
+D:/桌面/毕设/exam-platform/frontend/src/views/practice/PracticePage.vue
+483|      resetState()
+484|    } else {
+485|      ElMessage.success(练习完成！正确率 %)
+   |                            ^
+486|      router.back()
+487|    }[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/桌面/毕设/exam-platform/frontend/src/views/practice/PracticePage.vue[39m:257:26
+[33m  146|                    selected: isSelected(opt.key),
+  147|                    correct: showResult && opt.key === correctAnswer,
+  148|                    wrong: showResult && isSelected(opt.key) && opt.key !== correctAnswer,
+     |                                                                ^
+  149|                    disabled: showResult
+  150|                  }"[39m
+      at constructor (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.getTokenFromCode (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:6323:16)
+      at TypeScriptParserMixin.getTokenFromCode (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:10004:11)
+      at TypeScriptParserMixin.nextToken (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:5799:10)
+      at TypeScriptParserMixin.next (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:5709:10)
+      at TypeScriptParserMixin.parseIdentifierName (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:12230:10)
+      at TypeScriptParserMixin.parseIdentifier (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:12198:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:11433:27)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\桌面\毕设\exam-platform\frontend\node_modules\@babel\parser\lib\index.js:11098:23)
+[2m00:18:58[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/questions/542[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:00[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/dashboard[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:00[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/dashboard/heatmap[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:00[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/dashboard/weekly[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:00[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/weakness?subjectId=10[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/graph?subjectId=10[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/graph?subjectId=20[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/graph?subjectId=30[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/graph?subjectId=40[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/weakness?subjectId=20[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/weakness?subjectId=30[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/weakness?subjectId=40[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/knowledge/weakness?subjectId=10[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)
+[2m00:19:10[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/papers/matrix?subjectId=1[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1193:18)
+    at afterConnectMultiple (node:net:1783:7)

@@ -1,0 +1,13 @@
+﻿SET NAMES utf8mb4;
+USE exam_platform;
+DELETE FROM question_knowledge;
+DELETE FROM paper_question;
+DELETE FROM exam_question; 
+DELETE FROM user_answer;
+DELETE FROM wrong_question;
+DELETE FROM favorite;
+DELETE FROM note;
+DELETE FROM exam_record;
+DELETE FROM question;
+SOURCE D:/桌面/毕设/exam-platform/backend/src/main/resources/db/migration/seed.sql;
+SELECT COUNT(*) as total FROM question;
