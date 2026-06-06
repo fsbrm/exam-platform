@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS invite_code (
     INDEX idx_used (used)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO subject (id, name, description, icon, sort_order, status) VALUES
+INSERT IGNORE INTO subject (id, name, description, icon, sort_order, status) VALUES
 (1, '数据结构', '408计算机统考-数据结构', 'Monitor', 1, 1),
 (2, '计算机组成原理', '408计算机统考-计算机组成原理', 'Cpu', 2, 1),
 (3, '操作系统', '408计算机统考-操作系统', 'Operation', 3, 1),
