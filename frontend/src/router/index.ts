@@ -17,6 +17,7 @@ const router = createRouter({
     { path: '/ai', name: 'ai', component: () => import('@/views/ai/AiChatPage.vue') },
     { path: '/admin', name: 'admin', component: () => import('@/views/admin/AdminPage.vue'), meta: { requireAdmin: true } },
     { path: '/admin/questions', name: 'adminQuestions', component: () => import('@/views/admin/QuestionManage.vue'), meta: { requireAdmin: true } },
+    { path: '/admin/users', name: 'adminUsers', component: () => import('@/views/admin/UserManage.vue'), meta: { requireAdmin: true } },
     { path: '/subject/:id', redirect: '/papers' },
     { path: '/paper/:paperId', name: 'paperDetail', component: () => import('@/views/paper/PaperDetailPage.vue') },
     { path: '/question/:questionId', name: 'questionView', component: () => import('@/views/paper/QuestionViewPage.vue') },

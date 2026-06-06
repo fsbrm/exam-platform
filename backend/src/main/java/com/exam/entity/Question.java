@@ -17,6 +17,7 @@ public class Question {
     private String options;
     private String answer;
     private String image;
+    private String videoUrl;
     private String analysis;
     private Integer year;
     private Integer status;

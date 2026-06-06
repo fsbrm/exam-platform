@@ -19,6 +19,9 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // Ensure schema migrations (safe idempotent ALTERs)
+        try { jdbcTemplate.update("ALTER TABLE question ADD COLUMN IF NOT EXISTS video_url VARCHAR(500)"); } catch (Exception ignored) {}
+
         // Check if seed is complete (chapters exist = fully seeded)
         try {
             Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM chapter", Integer.class);
