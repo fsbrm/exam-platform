@@ -1,6 +1,6 @@
 ﻿/*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chapter` (
+CREATE TABLE IF NOT EXISTS `chapter` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `subject_id` bigint NOT NULL,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE `chapter` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `exam_paper` (
+CREATE TABLE IF NOT EXISTS `exam_paper` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `subject_id` bigint NOT NULL,
   `year` int NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE `exam_paper` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `exam_question` (
+CREATE TABLE IF NOT EXISTS `exam_question` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `exam_id` bigint NOT NULL,
   `question_id` bigint NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `exam_question` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `exam_record` (
+CREATE TABLE IF NOT EXISTS `exam_record` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `subject_id` bigint NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE `exam_record` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `favorite` (
+CREATE TABLE IF NOT EXISTS `favorite` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `question_id` bigint NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE `favorite` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `invite_code` (
+CREATE TABLE IF NOT EXISTS `invite_code` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(32) NOT NULL,
   `used` tinyint DEFAULT '0',
@@ -87,7 +87,7 @@ CREATE TABLE `invite_code` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `knowledge_point` (
+CREATE TABLE IF NOT EXISTS `knowledge_point` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `subject_id` bigint NOT NULL,
   `chapter_id` bigint DEFAULT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE `knowledge_point` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `note` (
+CREATE TABLE IF NOT EXISTS `note` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `question_id` bigint NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE `note` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `paper_question` (
+CREATE TABLE IF NOT EXISTS `paper_question` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `paper_id` bigint NOT NULL,
   `question_id` bigint NOT NULL,
@@ -127,7 +127,7 @@ CREATE TABLE `paper_question` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `question` (
+CREATE TABLE IF NOT EXISTS `question` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `chapter_id` bigint NOT NULL,
   `subject_id` bigint NOT NULL,
@@ -147,7 +147,7 @@ CREATE TABLE `question` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `question_knowledge` (
+CREATE TABLE IF NOT EXISTS `question_knowledge` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `question_id` bigint NOT NULL,
   `knowledge_id` bigint NOT NULL,
@@ -157,7 +157,7 @@ CREATE TABLE `question_knowledge` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `subject` (
+CREATE TABLE IF NOT EXISTS `subject` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -170,7 +170,7 @@ CREATE TABLE `subject` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -188,7 +188,7 @@ CREATE TABLE `user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_answer` (
+CREATE TABLE IF NOT EXISTS `user_answer` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `question_id` bigint NOT NULL,
@@ -204,7 +204,7 @@ CREATE TABLE `user_answer` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_question_mastery` (
+CREATE TABLE IF NOT EXISTS `user_question_mastery` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `question_id` bigint NOT NULL,
@@ -217,7 +217,7 @@ CREATE TABLE `user_question_mastery` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `wrong_question` (
+CREATE TABLE IF NOT EXISTS `wrong_question` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `question_id` bigint NOT NULL,
