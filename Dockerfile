@@ -1,4 +1,4 @@
-﻿# Build stage
+# Build stage
 FROM maven:3.9-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 COPY backend/pom.xml .
@@ -11,4 +11,4 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 ENV SPRING_PROFILES_ACTIVE=cloud
-ENTRYPOINT ["sh", "-c", "java -Xmx256m -jar app.jar --server.port=${PORT:-8080}"]
+ENTRYPOINT ["sh", "-c", "java -XX:+UseContainerSupport -XX:MaxRAMPercentage=60.0 -XX:InitialRAMPercentage=40.0 -jar app.jar --server.port=${PORT:-8080}"]

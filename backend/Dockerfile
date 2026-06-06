@@ -13,4 +13,4 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENV SPRING_PROFILES_ACTIVE=cloud
 ENV SERVER_PORT=8080
-ENTRYPOINT ["sh", "-c", "java -Xmx256m -jar app.jar --server.port=${PORT:-8080}"]
+ENTRYPOINT ["sh", "-c", "java -XX:+UseContainerSupport -XX:MaxRAMPercentage=60.0 -XX:InitialRAMPercentage=40.0 -jar app.jar --server.port=${PORT:-8080}"]
