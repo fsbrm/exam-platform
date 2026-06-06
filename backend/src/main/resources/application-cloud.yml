@@ -1,7 +1,7 @@
 # Cloud/Railway deployment profile
 spring:
   datasource:
-    url: jdbc:${DATABASE_URL}?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=true&requireSSL=true
+    url: jdbc:mysql://${MYSQLHOST:localhost}:${MYSQLPORT:3306}/${MYSQLDATABASE:exam_platform}?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=true&requireSSL=true
     username: ${MYSQLUSER:root}
     password: ${MYSQLPASSWORD:}
   data:
