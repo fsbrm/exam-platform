@@ -1,5 +1,6 @@
 package com.exam.common;
 
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -16,6 +17,13 @@ public class GlobalExceptionHandler {
     public Result<?> handleBusinessException(BusinessException e) {
         log.warn("业务异常: {}", e.getMessage());
         return Result.error(e.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(JwtException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result<?> handleJwtException(JwtException e) {
+        log.error("JWT异常 - 请检查jwt.secret配置: {}", e.getMessage());
+        return Result.error(500, "JWT配置错误: " + e.getMessage() + " (请检查JWT_SECRET环境变量长度是否≥32字符)");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

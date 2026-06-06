@@ -1,3 +1,5 @@
+# Render.com Blueprint (备用平台配置，当前使用 Railway)
+# 如需迁移到 Render: 在 Render Dashboard 手动设置下面标记 sync:false 的环境变量
 services:
   - type: web
     name: exam-platform-api
@@ -9,20 +11,24 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: cloud
-      - key: DATABASE_URL
+      - key: MYSQLHOST
         sync: false
-      - key: DATABASE_USERNAME
+      - key: MYSQLPORT
         sync: false
-      - key: DATABASE_PASSWORD
+      - key: MYSQLDATABASE
         sync: false
-      - key: REDIS_HOST
+      - key: MYSQLUSER
         sync: false
-      - key: REDIS_PORT
+      - key: MYSQLPASSWORD
         sync: false
-      - key: REDIS_PASSWORD
+      - key: REDISHOST
+        sync: false
+      - key: REDISPORT
+        sync: false
+      - key: REDISPASSWORD
         sync: false
       - key: JWT_SECRET
-        generateValue: true
+        sync: false
       - key: DEEPSEEK_API_KEY
         sync: false
     plan: free
