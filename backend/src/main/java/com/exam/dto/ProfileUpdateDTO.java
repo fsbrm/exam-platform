@@ -7,7 +7,7 @@ import lombok.Data;
 public class ProfileUpdateDTO {
     private String nickname;
 
-    @Email(message = "邮箱格式不正确")
+    @Email(message = "Invalid email format")
     private String email;
 
     private String avatar;
