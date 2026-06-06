@@ -183,8 +183,16 @@ onMounted(async () => {
     }
   } catch {}
 
+  // Fetch subject IDs dynamically for weakness query
+  let subjectIds: number[] = [1, 2, 3, 4]
+  try {
+    const subjRes: any = await api.get('/subjects')
+    if (subjRes.code === 200 && subjRes.data?.length) {
+      subjectIds = subjRes.data.map((s: any) => s.id)
+    }
+  } catch {}
   const weakAll: any[] = []
-  for (const sid of [10,20,30,40]) {
+  for (const sid of subjectIds) {
     try {
       const wr: any = await api.get('/knowledge/weakness', { params: { subjectId: sid } })
       if (wr.code === 200) weakAll.push(...(wr.data || []))

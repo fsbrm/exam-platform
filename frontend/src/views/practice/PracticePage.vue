@@ -464,8 +464,8 @@ onMounted(async () => {
   if (subjectId) listFilterSubjectId.value = Number(subjectId)
   if (chapterId) {
     listFilterChapterId.value = Number(chapterId)
-    const cn = Number(chapterId); const sfc = Math.floor(cn / 100) * 10
-    if ([10, 20, 30, 40].includes(sfc)) listFilterSubjectId.value = sfc
+    const cn = Number(chapterId); const sfc = Math.floor(cn / 100)
+    if ([1, 2, 3, 4].includes(sfc)) listFilterSubjectId.value = sfc
   }
 
   if (from === 'knowledge') viewMode.value = 'single'

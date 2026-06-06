@@ -45,6 +45,9 @@ public class KnowledgeController {
         List<Chapter> chapters = chapterMapper.selectList(
             new LambdaQueryWrapper<Chapter>().eq(Chapter::getSubjectId, subjectId).orderByAsc(Chapter::getSortOrder));
         Subject subj = subjectMapper.selectById(subjectId);
+        if (subj == null) {
+            return Result.success(Map.of("nodes", List.of(), "links", List.of()));
+        }
         return Result.success(buildForestGraph(subj, chapters, rows, userId));
     }
 

@@ -235,7 +235,7 @@ function goPractice() {
     router.push(`/practice?chapterId=${id}&from=knowledge`)
   } else if (type === 'kp') {
     // Find which subject this KP belongs to
-    let subjectId = 10
+    let subjectId = 1
     for (const subj of treeData.value) {
       for (const ch of subj.chapters) {
         if (ch.knowledgePoints?.some((kp: any) => kp.id === id)) {

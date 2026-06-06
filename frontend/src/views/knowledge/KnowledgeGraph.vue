@@ -162,7 +162,13 @@ function goPractice() {
 }
 
 onMounted(async () => {
-  const subjectIds = [10, 20, 30, 40]
+  // Fetch subjects dynamically to get correct IDs
+  const subjectsRes: any = await api.get('/subjects')
+  const subjectIds: number[] = (subjectsRes?.data || []).map((s: any) => s.id)
+  if (subjectIds.length === 0) {
+    loading.value = false
+    return
+  }
   const results = await Promise.allSettled(
     subjectIds.map(id => api.get('/knowledge/graph', { params: { subjectId: id } }))
   )
