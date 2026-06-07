@@ -12,7 +12,7 @@
             <button class="ph-settings-btn" @click.stop="showSettings = !showSettings" title="刷题设置">
               <el-icon :size="18"><Setting /></el-icon>
             </button>
-            <div class="ph-settings-drop" v-if="showSettings">
+            <div class="ph-settings-drop" v-if="showSettings" @click.stop>
               <div class="psd-item">
                 <span>做题反馈</span>
                 <el-switch v-model="feedbackEnabled" size="small" @change="saveSetting" />
@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -107,6 +107,16 @@ function saveSetting() {
   localStorage.setItem('practice_combo', String(comboEnabled.value))
   localStorage.setItem('practice_autosubmit', String(autoSubmit.value))
 }
+// Auto-close settings on outside click or scroll
+function closeSettings() { showSettings.value = false }
+onMounted(() => {
+  document.addEventListener('click', closeSettings)
+  document.addEventListener('scroll', closeSettings, true)
+})
+onUnmounted(() => {
+  document.removeEventListener('click', closeSettings)
+  document.removeEventListener('scroll', closeSettings, true)
+})
 
 function logout() {
   userStore.logout()
