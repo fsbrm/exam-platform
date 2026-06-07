@@ -272,21 +272,6 @@ function onKeyDown(e: KeyboardEvent) {
 }
 
 // Combo tracking
-function triggerCombo(isCorrect: boolean) {
-  if (!comboEnabled()) return
-  if (isCorrect) {
-    comboCount.value++
-    if (comboCount.value > bestCombo.value) { bestCombo.value = comboCount.value; localStorage.setItem('practice_best_combo', String(bestCombo.value)) }
-    if (comboCount.value === 3) flashCombo('春风若有怜花意，可否许我再少年 🌸')
-    else if (comboCount.value === 8) flashCombo('仰天大笑出门去，我辈岂是蓬蒿人 🎋')
-    else if (comboCount.value === 12) flashCombo('长风破浪会有时，直挂云帆济沧海 ⛵')
-    else if (comboCount.value === 18) flashCombo('大鹏一日同风起，扶摇直上九万里 🦅')
-    else if (comboCount.value === 25) flashCombo('会当凌绝顶，一览众山小 🏔️')
-    else if (comboCount.value === 30) flashCombo('杀~杀~杀~！ ⚔️')
-  } else {
-    comboCount.value = 0
-  }
-}
 const comboSupressFeedback = ref(false)
 function flashCombo(txt: string) {
   comboTxt.value = txt; showCombo.value = true
