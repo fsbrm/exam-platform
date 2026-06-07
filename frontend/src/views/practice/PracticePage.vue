@@ -35,7 +35,7 @@
       <div v-if="comboEnabled() && comboCount > 1" class="pp-combo-badge">{{ comboCount }}连</div>
       <!-- Subtle keyboard hint -->
       <div v-if="keyboardEnabled && !kbHintClosed" class="pp-kb-hint">
-        <span>1-4 选项</span><span>Space 提交</span><span>←→ 切题</span><span>Q/W/E/R 掌握</span><span>C 收藏</span><span>Z 重做</span>
+        <span>1-4 选项</span><span>空格 提交</span><span>←→ 切题</span><span>Q/W/E/R 掌握</span><span>C 收藏</span><span>Z 重做</span>
         <button class="pp-kb-close" @click="kbHintClosed=true" title="关闭">✕</button>
       </div>
       <!-- Floating nav toggle (top-right, only when nav closed) -->
@@ -237,11 +237,11 @@ const feedbackEnabled = () => localStorage.getItem('practice_feedback') === 'tru
 const keyboardEnabled = ref(localStorage.getItem('practice_keyboard') === 'true')
 const comboEnabled = () => localStorage.getItem('practice_combo') === 'true'
 const kbHintClosed = ref(false)
-// Poll for keyboard setting changes (App.vue writes to localStorage)
+// Poll for keyboard setting changes, reset hint on re-enable
 setInterval(() => {
   const v = localStorage.getItem('practice_keyboard') === 'true'
-  if (v !== keyboardEnabled.value) { keyboardEnabled.value = v; kbHintClosed.value = false }
-}, 1000)
+  if (v !== keyboardEnabled.value) { keyboardEnabled.value = v; if (v) kbHintClosed.value = false }
+}, 800)
 const comboCount = ref(0)
 const showCombo = ref(false)
 const comboTxt = ref('')
@@ -256,7 +256,7 @@ function onKeyDown(e: KeyboardEvent) {
     const opts = parsedOptions.value
     if (idx < opts.length) selectOption(opts[idx].key)
   }
-  if (e.key === 'Enter' && !showResult.value && canSubmit.value) submitAnswer()
+  if (e.key === ' ' && !showResult.value && canSubmit.value) { e.preventDefault(); submitAnswer() }
   if (e.key === 'ArrowLeft' && currentIndex.value > 0) prevQuestion()
   if (e.key === 'ArrowRight' && currentIndex.value < questions.value.length - 1) nextQuestion()
   if (e.key === 'c' || e.key === 'C') toggleFavorite()
