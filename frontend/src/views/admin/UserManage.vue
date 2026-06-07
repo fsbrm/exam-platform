@@ -84,6 +84,7 @@
             <el-button size="small" :type="row.status===0?'success':'warning'" @click="toggleStatus(row)">{{ row.status===0?'启用':'禁用' }}</el-button>
             <el-button size="small" v-if="row.role!=='ADMIN'" type="danger" @click="changeRole(row,'ADMIN')">升管</el-button>
             <el-button size="small" v-if="row.role==='ADMIN'" @click="changeRole(row,'USER')">降权</el-button>
+            <el-button size="small" plain @click="resetPwd(row)">改密</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -113,7 +114,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import * as echarts from 'echarts'
 import api from '@/api'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 // Overview
 const overview = ref({totalUsers:0,totalQuestions:0,totalAnswers:0,todayAnswers:0,todayActiveUsers:0})
@@ -178,6 +179,10 @@ async function toggleStatus(row:any){
 }
 async function changeRole(row:any,role:string){
   try{await api.put(`/admin/users/${row.id}/role`,{role}); row.role=role; ElMessage.success('角色已更新')}catch{}
+}
+async function resetPwd(row:any){
+  try{const { value } = await ElMessageBox.prompt(`请输入 ${row.username} 的新密码（至少6位）`,'重置密码',{confirmButtonText:'确定',cancelButtonText:'取消',inputType:'text',inputValidator:(v:string)=>{if(!v||v.length<6)return'密码至少6位';return true}}); if(!value)return
+  await api.put(`/admin/users/${row.id}/password`,{password:value}); ElMessage.success('密码已重置')}catch{}
 }
 async function viewUser(u:any){
   try{const r:any=await api.get(`/admin/users/${u.id}`); if(r.code===200){

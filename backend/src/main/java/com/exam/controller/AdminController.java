@@ -8,6 +8,7 @@ import com.exam.dto.QuestionQueryDTO;
 import com.exam.entity.*;
 import com.exam.mapper.*;
 import com.exam.security.JwtAuthenticationFilter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.exam.service.DashboardService;
 import com.exam.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -178,13 +179,24 @@ public class AdminController {
         return Result.success(result);
     }
 
-    @Operation(summary = "在线用户列表")
+    @Operation(summary = "在线用户列表(5分钟内有操作)")
     @GetMapping("/analytics/online")
     public Result<?> onlineUsers() {
-        long fiveMinAgo = System.currentTimeMillis() - 5 * 60 * 1000;
-        List<Map<String, Object>> online = userAnswerMapper.getOnlineUsers(
-                new java.sql.Timestamp(fiveMinAgo).toLocalDateTime());
+        LocalDateTime fiveMinAgo = LocalDateTime.now().minusMinutes(5);
+        List<Map<String, Object>> online = userAnswerMapper.getOnlineUsers(fiveMinAgo);
         return Result.success(online);
+    }
+
+    @Operation(summary = "重置用户密码")
+    @PutMapping("/users/{id}/password")
+    public Result<?> resetPassword(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        User u = userMapper.selectById(id);
+        if (u == null) throw new BusinessException(404, "用户不存在");
+        String newPwd = body.get("password");
+        if (newPwd == null || newPwd.length() < 6) throw new BusinessException("密码至少6位");
+        u.setPassword(new BCryptPasswordEncoder().encode(newPwd));
+        userMapper.updateById(u);
+        return Result.success(Map.of("message", "密码已重置"));
     }
 
     @Operation(summary = "每日活跃用户趋势(近30天)")
