@@ -25,6 +25,10 @@
                 <span>连击计数</span>
                 <el-switch v-model="comboEnabled" size="small" @change="saveSetting" />
               </div>
+              <div class="psd-item">
+                <span>自动提交</span>
+                <el-switch v-model="autoSubmit" size="small" @change="saveSetting" />
+              </div>
             </div>
           </div>
           <router-link to="/papers" class="ph-link">真题总览</router-link>
@@ -96,10 +100,12 @@ const showSettings = ref(false)
 const feedbackEnabled = ref(localStorage.getItem('practice_feedback') === 'true')
 const keyboardEnabled = ref(localStorage.getItem('practice_keyboard') === 'true')
 const comboEnabled = ref(localStorage.getItem('practice_combo') === 'true')
+const autoSubmit = ref(localStorage.getItem('practice_autosubmit') === 'true')
 function saveSetting() {
   localStorage.setItem('practice_feedback', String(feedbackEnabled.value))
   localStorage.setItem('practice_keyboard', String(keyboardEnabled.value))
   localStorage.setItem('practice_combo', String(comboEnabled.value))
+  localStorage.setItem('practice_autosubmit', String(autoSubmit.value))
 }
 
 function logout() {

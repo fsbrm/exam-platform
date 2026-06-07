@@ -35,7 +35,7 @@
       <div v-if="comboEnabled() && comboCount > 1" class="pp-combo-badge">{{ comboCount }}连</div>
       <!-- Subtle keyboard hint -->
       <div v-if="keyboardEnabled && !kbHintClosed" class="pp-kb-hint">
-        <span>1-4 选项</span><span>Space 提交</span><span>←→ 切换</span><span>Q/E 掌握/不会</span><span>C 收藏</span>
+        <span>1-4 选项</span><span>Space 提交</span><span>←→ 切题</span><span>Q/W/E/R 掌握</span><span>C 收藏</span><span>Z 重做</span>
         <button class="pp-kb-close" @click="kbHintClosed=true" title="关闭">✕</button>
       </div>
       <!-- Floating nav toggle (top-right, only when nav closed) -->
@@ -249,6 +249,7 @@ const comboTxt = ref('')
 // Keyboard shortcuts
 function onKeyDown(e: KeyboardEvent) {
   if (!keyboardEnabled || viewMode.value !== 'single' || !currentQuestion.value) return
+  kbHintClosed.value = true // auto-dismiss on first use
   const q = currentQuestion.value
   if (e.key >= '1' && e.key <= '9' && !showResult.value && ['SINGLE','MULTI'].includes(q.type)) {
     const idx = parseInt(e.key) - 1
@@ -263,6 +264,7 @@ function onKeyDown(e: KeyboardEvent) {
   if (e.key === 'w' || e.key === 'W') markMastery('unfamiliar')
   if (e.key === 'e' || e.key === 'E') markMastery('dontknow')
   if (e.key === 'r' || e.key === 'R') markMastery('careless')
+  if (e.key === 'z' || e.key === 'Z') { selectedAnswer.value = ''; showResult.value = false }
 }
 
 // Combo tracking
@@ -405,7 +407,11 @@ function parsedListOptions(q) {
   } catch { return [] }
 }
 function formatListContent(q) { return q.content || '' }
-function selectListOption(q, key) { if (!q._submitted) q._selected = key }
+function selectListOption(q, key) {
+  if (q._submitted) return
+  q._selected = key
+  if (localStorage.getItem('practice_autosubmit') === 'true' && q.type !== 'MULTI') submitListAnswer(q, 0)
+}
 function renderText(text) { if (!text) return ''; return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>') }
 function isSelected(key) { return currentQuestion.value?.type === 'MULTI' ? selectedAnswer.value.split(',').includes(key) : selectedAnswer.value === key }
   function getHintStage1(q) { return '请仔细审题，回忆相关知识点，先排除明显不符合题意的选项。' }
@@ -444,7 +450,10 @@ function selectOption(key) {
     const s = selectedAnswer.value ? selectedAnswer.value.split(',').filter(x => x) : []
     const idx = s.indexOf(key); if (idx >= 0) s.splice(idx, 1); else s.push(key)
     selectedAnswer.value = s.join(',')
-  } else { selectedAnswer.value = key }
+  } else {
+    selectedAnswer.value = key
+    if (localStorage.getItem('practice_autosubmit') === 'true') submitAnswer()
+  }
 }
 async function submitAnswer() {
   if (!currentQuestion.value || !selectedAnswer.value) return
