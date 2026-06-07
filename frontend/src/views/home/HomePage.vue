@@ -10,8 +10,6 @@
         <section class="stats-row clickable" v-if="userStore.isLoggedIn" @click="$router.push('/papers')">
           <div class="stat-card c1"><div class="sc-num">{{ overview.totalQuestions || 0 }}</div><div class="sc-unit">题已刷</div></div>
           <div class="stat-card c2"><div class="sc-num">{{ overview.accuracy || 0 }}%</div><div class="sc-unit">正确率</div></div>
-          <div class="stat-card c3"><div class="sc-num">{{ overview.streakDays || 0 }}<span class="sc-sfx">天</span></div><div class="sc-unit">连续打卡</div></div>
-          <div class="stat-card c4"><div class="sc-num">{{ overview.studyDays || 0 }}<span class="sc-sfx">天</span></div><div class="sc-unit">累计学习</div></div>
           <span class="stats-arrow">▸ 开始刷题</span>
         </section>
 
@@ -69,32 +67,28 @@
 
       <div class="side-col" v-if="userStore.isLoggedIn">
         <div class="side-card">
-          <div class="cal-nav">
-            <span class="cal-arrow" @click="prevMonth">◀</span>
-            <span class="cal-month-label">{{ calYear }}年 {{ calMonth }}月</span>
-            <span class="cal-arrow" @click="nextMonth">▶</span>
-          </div>
+          <div class="cal-nav"><span class="cal-arrow" @click="prevMonth">◀</span><span class="cal-month-label">{{ calYear }}年 {{ calMonth }}月</span><span class="cal-arrow" @click="nextMonth">▶</span></div>
           <div class="cal-weekdays"><span v-for="wd in weekDays" :key="wd">{{ wd }}</span></div>
-          <div class="cal-grid">
-            <div v-for="(d,i) in calMonthDays" :key="i" class="cal-cell" :class="[d.inMonth ? 'lvl'+d.level : '', !d.inMonth ? 'out-month' : '']" :title="d.inMonth ? d.label : ''">
-              <span class="cal-day">{{ d.day }}</span>
-            </div>
-          </div>
+          <div class="cal-grid"><div v-for="(d,i) in calMonthDays" :key="i" class="cal-cell" :class="[d.inMonth?'lvl'+d.level:'','!d.inMonth?out-month':'']" :title="d.inMonth?d.label:''"><span class="cal-day">{{ d.day }}</span></div></div>
           <div class="cal-legend"><span>少</span><span class="cl-dot lvl0"></span><span class="cl-dot lvl1"></span><span class="cl-dot lvl2"></span><span class="cl-dot lvl3"></span><span class="cl-dot lvl4"></span><span>多</span></div>
+          <div class="cal-footer">🔥 连续 {{ overview.streakDays||0 }} 天 · 📅 累计 {{ overview.studyDays||0 }} 天</div>
         </div>
 
+        <!-- Leaderboard -->
         <div class="side-card" style="margin-top:10px">
-          <div class="streak-display">
-            <div class="streak-num">{{ overview.streakDays || 0 }}<span class="streak-unit">天</span></div>
+          <h4>🏆 排行榜</h4>
+          <div class="lb-tabs">
+            <span :class="{active:lbTab==='day'}" @click="lbTab='day'">日题数</span>
+            <span :class="{active:lbTab==='acc'}" @click="lbTab='acc'">日正确率</span>
+            <span :class="{active:lbTab==='total'}" @click="lbTab='total'">总题量</span>
           </div>
-          <div class="streak-sub">连续打卡</div>
-        </div>
-
-        <div class="side-card" style="margin-top:10px">
-          <h4>总体正确率</h4>
-          <div class="side-pct">
-            <div class="sp-bar-bg"><div class="sp-bar-fill" :style="{width:(overview.accuracy||0)+'%'}"></div></div>
-            <span class="sp-text">{{ overview.accuracy || 0 }}%</span>
+          <div class="lb-list">
+            <div v-for="(u,i) in lbData" :key="u.id" class="lb-row">
+              <span class="lb-idx" :class="'r'+i">{{ i+1 }}</span>
+              <span class="lb-name">{{ u.nickname||u.username }}</span>
+              <span class="lb-val">{{ u.cnt }}题</span>
+            </div>
+            <div v-if="lbData.length===0" class="lb-empty">暂无数据</div>
           </div>
         </div>
 
@@ -113,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import api from '@/api'
 
@@ -123,6 +117,8 @@ const overview = ref<any>({})
 const todayCount = ref(0)
 const todayCorrect = ref(0)
 const weakPoints = ref<any[]>([])
+const lbTab = ref('day')
+const lbData = ref<any[]>([])
 const subjectBars = ref<any[]>([])
 const subjects = ref<any[]>([
   { name: '数据结构', icon: '📊', color: '#4f7cff', kpCount: 39, qCount: 219 },
@@ -202,7 +198,12 @@ onMounted(async () => {
   weakPoints.value = weakAll.sort((a: any, b: any) =>
     ((b.done_count||0)-(b.correct_count||0)) - ((a.done_count||0)-(a.correct_count||0))
   ).slice(0, 6)
+  loadLeaderboard()
 })
+async function loadLeaderboard() {
+  try{const r:any=await api.get('/admin/analytics/'+(lbTab.value==='day'?'daily-top':lbTab.value==='acc'?'daily-accuracy':'total-top'));if(r.code===200)lbData.value=r.data||[]}catch{lbData.value=[]}
+}
+watch(lbTab, loadLeaderboard)
 </script>
 
 <style scoped>
@@ -283,5 +284,14 @@ onMounted(async () => {
 .sl-item{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:#374151;transition:background .15s}
 .sl-item:hover{background:#f0f4ff;color:#4f7cff}
 .sl-item span{font-size:15px}
+.lb-tabs{display:flex;gap:0;margin-bottom:8px;background:#f3f4f6;border-radius:8px;padding:2px}
+.lb-tabs span{flex:1;text-align:center;padding:4px 0;font-size:11px;cursor:pointer;border-radius:6px;color:#6b7280;transition:all .15s}
+.lb-tabs span.active{background:white;color:#4f7cff;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.lb-list{max-height:300px;overflow-y:auto}.lb-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:12px}
+.lb-idx{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:#f3f4f6;flex-shrink:0}
+.lb-idx.r0{background:#fbbf24;color:white}.lb-idx.r1{background:#9ca3af;color:white}.lb-idx.r2{background:#d97706;color:white}
+.lb-name{flex:1;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lb-val{color:#6b7280;font-weight:600;flex-shrink:0}
+.lb-empty{text-align:center;padding:16px;color:#9ca3af;font-size:12px}
+.cal-footer{text-align:center;font-size:11px;color:#9ca3af;margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0}
 @media(max-width:768px){.main-layout{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.subj-cards{grid-template-columns:repeat(2,1fr)}.sc-num{font-size:28px}.stats-arrow{display:none}.hero h1{font-size:22px}.hero{padding:16px}.home-page{padding:0 12px}}
 </style>

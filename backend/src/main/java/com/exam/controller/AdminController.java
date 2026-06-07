@@ -235,6 +235,12 @@ public class AdminController {
         return Result.success(userAnswerMapper.dailyTopUsers(10));
     }
 
+    @Operation(summary = "今日正确率排行TOP10")
+    @GetMapping("/analytics/daily-accuracy")
+    public Result<?> dailyAccuracy() {
+        return Result.success(userAnswerMapper.dailyAccuracyTop(10));
+    }
+
     @Operation(summary = "刷题总榜(总刷题TOP20)")
     @GetMapping("/analytics/total-top")
     public Result<?> totalTop() {

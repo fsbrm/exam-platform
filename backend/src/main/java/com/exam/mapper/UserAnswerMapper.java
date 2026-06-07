@@ -130,4 +130,11 @@ public interface UserAnswerMapper extends BaseMapper<UserAnswer> {
 
     @Select("SELECT MAX(answered_at) as answered_at FROM user_answer WHERE user_id = #{userId}")
     Map<String, Object> selectLastActive(@Param("userId") Long userId);
+
+    @Select("SELECT u.id, u.username, u.nickname, " +
+            "CAST(SUM(CASE WHEN ua.is_correct=1 THEN 1 ELSE 0 END)*100.0/COUNT(*) AS DECIMAL(5,1)) as cnt " +
+            "FROM user_answer ua JOIN user u ON ua.user_id=u.id " +
+            "WHERE DATE(ua.answered_at)=CURDATE() GROUP BY u.id,u.username,u.nickname " +
+            "HAVING COUNT(*)>=5 ORDER BY cnt DESC LIMIT #{limit}")
+    List<Map<String, Object>> dailyAccuracyTop(@Param("limit") int limit);
 }
