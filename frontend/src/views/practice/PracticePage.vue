@@ -401,22 +401,31 @@ function openVideoSearch(q) {
 }
 function openBilibiliSearch() { window.open('https://search.bilibili.com/video?keyword=408考研', '_blank') }
 function openVideoUrl(url) { window.open(url, '_blank') }
-function toggleNotePanel() { showNotePanel.value = !showNotePanel.value }
+async function toggleNotePanel() {
+  showNotePanel.value = !showNotePanel.value
+  if (showNotePanel.value && currentQuestion.value) {
+    try {
+      const res: any = await api.get('/user/note/' + currentQuestion.value.id)
+      if (res.code === 200 && res.data) currentNote.value = res.data.content || ''
+      else currentNote.value = ''
+    } catch { currentNote.value = '' }
+  }
+}
 async function saveNote() {
   if (!currentQuestion.value) return
-  try { await api.post('/notes', { questionId: currentQuestion.value.id, content: currentNote.value }); currentQuestion.value._note = currentNote.value; ElMessage.success('已保存'); showNotePanel.value = false } catch { ElMessage.error('保存失败') }
+  try { await api.post('/user/note/' + currentQuestion.value.id, { content: currentNote.value }); currentQuestion.value._note = currentNote.value; ElMessage.success('已保存'); showNotePanel.value = false } catch { ElMessage.error('保存失败') }
 }
 async function toggleFavorite() {
   if (!currentQuestion.value) return
   try {
-    if (isFavorited.value) { await api.delete('/favorites/' + currentQuestion.value.id); isFavorited.value = false; ElMessage.success('已取消') }
-    else { await api.post('/favorites', { questionId: currentQuestion.value.id }); isFavorited.value = true; ElMessage.success('已收藏') }
+    const res: any = await api.post('/user/favorite/' + currentQuestion.value.id)
+    if (res.code === 200) { isFavorited.value = res.data.isFavorited; currentQuestion.value._favorited = res.data.isFavorited }
   } catch {}
 }
 async function toggleListFavorite(q) {
   try {
-    if (q._favorited) { await api.delete('/favorites/' + q.id); q._favorited = false }
-    else { await api.post('/favorites', { questionId: q.id }); q._favorited = true }
+    const res: any = await api.post('/user/favorite/' + q.id)
+    if (res.code === 200) q._favorited = res.data.isFavorited
   } catch {}
 }
 async function markListMastery(q, level) {
