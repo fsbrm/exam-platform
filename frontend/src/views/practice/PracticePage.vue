@@ -29,7 +29,6 @@
             <el-option v-for="(q, idx) in filteredListQuestions" :key="q.id" :label="(q.year||'')+'年'+(q.questionNumber||idx+1)+'题'" :value="idx" />
           </el-select>
         </div>
-      </div>
       <!-- Floating nav toggle (top-right, only when nav closed) -->
       <button v-if="viewMode==='single' && !navOpen" class="pp-float-nav-btn" @click="navOpen=true">☰ {{ questions.length }}题</button>
       <!-- Floating mode switch -->
