@@ -3,6 +3,10 @@
     <section class="hero">
       <h1>408 真题刷题平台</h1>
       <p>2009-2026 · 四大学科 144 知识点全覆盖</p>
+      <div class="hero-cta" @click="$router.push('/practice')">
+        <span>立即刷题</span>
+        <span class="cta-arrow">→</span>
+      </div>
     </section>
 
     <div class="main-layout">
@@ -205,6 +209,10 @@ watch(lbTab, loadLeaderboard)
 .hero{text-align:center;padding:30px 0 20px}
 .hero h1{font-size:28px;font-weight:800;color:#1f2937;margin-bottom:4px}
 .hero p{font-size:14px;color:#9ca3af}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 28px;background:linear-gradient(135deg,#4f7cff,#6366f1);color:white;border-radius:50px;cursor:pointer;font-size:16px;font-weight:600;transition:all .3s;box-shadow:0 4px 16px rgba(79,124,255,.3)}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(79,124,255,.45)}
+.cta-arrow{display:inline-block;animation:cta-bounce .8s ease-in-out infinite}
+@keyframes cta-bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
 .main-layout{display:grid;grid-template-columns:1fr 280px;gap:16px}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;position:relative}
 .stats-row.clickable{cursor:pointer;transition:all .2s}.stats-row.clickable:hover{transform:translateY(-2px)}
