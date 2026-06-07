@@ -561,8 +561,8 @@ onMounted(async () => {
 .side-arrow { position: fixed; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e5e7eb; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #4b5563; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.15s; }
 .side-arrow:hover:not(:disabled) { background: #4f7cff; color: white; border-color: #4f7cff; box-shadow: 0 4px 12px rgba(79,124,255,0.3); }
 .side-arrow:disabled { opacity: 0.15; cursor: default; }
-.side-arrow-left { left: 12px; }
-.side-arrow-right { right: 12px; }
+.side-arrow-left { left: 80px; }
+.side-arrow-right { right: 80px; }
 .pps-main { flex: 1; overflow-y: auto; padding: 20px 40px; }
 .pps-nav { width: 200px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; }
 .pps-nav-title { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
