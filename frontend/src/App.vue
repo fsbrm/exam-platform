@@ -83,6 +83,8 @@
     <main class="app-main">
       <router-view />
     </main>
+    <!-- watermark -->
+    <div class="global-watermark">fsbrm</div>
   </div>
 </template>
 
@@ -226,5 +228,23 @@ a { text-decoration: none; }
   .ph-back { font-size: 11px; padding: 4px 8px; }
   .ph-link { font-size: 11px; padding: 4px 8px; }
   .ph-settings-drop { right: -60px; }
+}
+.global-watermark { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }
+.global-watermark::before {
+  content: 'fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm';
+  position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  font-size: 18px; color: rgba(0,0,0,0.03); font-weight: 700;
+  white-space: pre-wrap; word-break: break-all; line-height: 120px;
+  transform: rotate(-20deg); letter-spacing: 40px;
+}
+</style>
+<style>
+.global-watermark { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }
+.global-watermark::before {
+  content: 'fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm';
+  position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  font-size: 18px; color: rgba(0,0,0,0.03); font-weight: 700;
+  white-space: pre-wrap; word-break: break-all; line-height: 120px;
+  transform: rotate(-20deg); letter-spacing: 40px;
 }
 </style>
