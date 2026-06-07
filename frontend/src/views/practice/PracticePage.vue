@@ -556,18 +556,18 @@ onMounted(async () => {
 .ppfb-row2 { display: none; }
 .pp-float-filters { position: fixed; right: 20px; top: 140px; z-index: 90; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-radius: 12px; padding: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 8px; width: 170px; }
 .pff-title { font-size: 12px; font-weight: 600; color: #9ca3af; margin-bottom: 2px; }
-.pp-scroll { padding-top: 56px; background: #f5f7fa; height: 100vh; overflow: hidden; }
+.pp-scroll { padding-top: 100px; background: #f5f7fa; min-height: 100vh; }
 
-.pp-list-wrap { max-width: 900px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; height: calc(100vh - 56px); overflow-y: auto; }
+.pp-list-wrap { max-width: 900px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
 .pp-empty { text-align: center; padding: 60px 0; color: #9ca3af; }
-.pp-single-wrap { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-start; height: calc(100vh - 56px); position: relative; }
+.pp-single-wrap { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-start; min-height: calc(100vh - 160px); position: relative; }
 .side-arrow { position: fixed; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e5e7eb; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #4b5563; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.15s; }
 .side-arrow:hover:not(:disabled) { background: #4f7cff; color: white; border-color: #4f7cff; box-shadow: 0 4px 12px rgba(79,124,255,0.3); }
 .side-arrow:disabled { opacity: 0.15; cursor: default; }
 .side-arrow-left { left: 80px; }
 .side-arrow-right { right: 80px; }
-.pps-main { flex: 1; overflow-y: auto; padding: 20px 40px; height: 100%; }
-.pps-nav { width: 200px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; height: 100%; }
+.pps-main { flex: 1; overflow-y: auto; padding: 20px 40px; }
+.pps-nav { width: 200px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; position: sticky; top: 100px; align-self: flex-start; max-height: calc(100vh - 140px); }
 .pps-nav-title { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
 .pps-nav-close { background: none; border: none; cursor: pointer; font-size: 16px; color: #9ca3af; padding: 2px 6px; border-radius: 4px; }
 .pps-nav-close:hover { background: #f3f4f6; color: #374151; }
