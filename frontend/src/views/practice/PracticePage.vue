@@ -135,7 +135,7 @@
               </div>
               <div v-if="showResult" class="sl-result" :class="{ ok: lastCorrect, err: !lastCorrect }">
                 <div class="sl-result-hd"><span v-if="currentQuestion?._showAnswer" style="color:#4f7cff">答案：{{ correctAnswer }}</span><span v-else-if="lastCorrect">正确！</span><span v-else>错误！答案：{{ correctAnswer }}</span></div>
-                <div class="sl-result-body" v-if="currentQuestion.analysis" v-html="renderText(currentQuestion.analysis)"></div>
+                <div class="sl-result-body" v-if="currentQuestion.analysis" v-html="currentQuestion.analysis"></div>
               </div>
               <div v-if="singleHintLevel >= 1" class="sl-hint">提示一：{{ getHintStage1(currentQuestion) }}</div>
               <div v-if="singleHintLevel >= 2" class="sl-hint" style="background:#fff0f6">提示二：{{ getHintStage2(currentQuestion) }}</div>
