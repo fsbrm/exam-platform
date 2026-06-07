@@ -9,16 +9,18 @@
       <div class="main-col">
         <template v-if="userStore.isLoggedIn">
           <div class="two-col">
-            <div class="section-card">
-              <h3>🔥 今日概况</h3>
-              <div v-if="todayCount > 0" class="today-box">
-                <div class="today-big">{{ todayCount }}<span>题</span></div>
-                <div class="today-detail"><span class="tc">{{ todayCorrect }} 正确</span><span class="sep">·</span><span class="te">{{ todayCount - todayCorrect }} 错误</span><span class="sep">·</span><span>正确率 {{ todayCount>0 ? Math.round(todayCorrect/todayCount*100) : 0 }}%</span></div>
-              </div>
-              <div v-else class="today-box dim"><div class="today-big">0<span>题</span></div><div class="today-detail">今天还没刷题，去练几道吧~</div></div>
-              <div class="today-cta" @click="$router.push('/papers')">
-                <span>去真题总览刷题</span>
-                <svg class="cta-svg" viewBox="0 0 24 24" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="section-card today-card">
+              <div class="today-top" @click="$router.push('/papers')">
+                <div class="today-left">
+                  <div class="today-num">{{ todayCount }}<span>题</span></div>
+                  <div class="today-sub">今日已刷</div>
+                </div>
+                <div class="today-right">
+                  <div class="today-row"><span class="td-ok">{{ todayCorrect }}</span> 正确 · <span class="td-err">{{ todayCount-todayCorrect }}</span> 错误</div>
+                  <div class="today-pct-bar"><div class="tp-fill" :style="{width:(todayCount>0?Math.round(todayCorrect/todayCount*100):0)+'%'}"></div></div>
+                  <div class="today-pct">{{ todayCount>0?Math.round(todayCorrect/todayCount*100):0 }}% 正确率</div>
+                </div>
+                <svg class="cta-svg" viewBox="0 0 24 24" width="20" height="20"><path d="M9 18l6-6-6-6" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
             </div>
             <div class="section-card">
@@ -227,12 +229,12 @@ watch(lbTab, loadLeaderboard)
 .section-card{background:white;border-radius:14px;padding:18px 22px;box-shadow:0 1px 3px rgba(0,0,0,.04);margin-bottom:14px}
 .section-card h3{font-size:15px;margin-bottom:12px;color:#1f2937}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.today-box{text-align:center;padding:8px 0}
-.today-big{font-size:52px;font-weight:800;color:#4f7cff;line-height:1}
-.today-big span{font-size:16px;font-weight:500;color:#9ca3af}
-.today-box.dim .today-big{color:#e5e7eb}
-.today-detail{font-size:13px;color:#6b7280;margin-top:6px}
-.today-detail .sep{margin:0 5px;color:#d1d5db}
+.today-card{padding:20px}.today-top{display:flex;align-items:center;gap:16px;cursor:pointer}.today-top:hover .cta-svg{color:#4f7cff}
+.today-left{flex-shrink:0;text-align:center}.today-num{font-size:38px;font-weight:900;color:#4f7cff;line-height:1}.today-num span{font-size:16px;font-weight:500;color:#9ca3af}.today-sub{font-size:12px;color:#9ca3af;margin-top:2px}
+.today-right{flex:1;min-width:0}.today-row{font-size:13px;color:#6b7280;margin-bottom:6px}.td-ok{color:#10b981;font-weight:600}.td-err{color:#ef4444;font-weight:600}
+.today-pct-bar{height:6px;background:#f0f0f0;border-radius:3px;margin-bottom:4px;overflow:hidden}.tp-fill{height:100%;background:linear-gradient(90deg,#4f7cff,#6366f1);border-radius:3px;transition:width .5s}
+.today-pct{font-size:12px;color:#9ca3af}
+.cta-svg{flex-shrink:0;color:#d1d5db;animation:cta-bounce 1.2s ease-in-out infinite;transition:color .2s}@keyframes cta-bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
 .tc{color:#52c41a}.te{color:#ff4d4f}
 .today-box.dim .today-detail{color:#9ca3af}
 .subj-bars{display:flex;flex-direction:column;gap:14px}
