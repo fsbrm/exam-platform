@@ -159,9 +159,22 @@
               <span>题号导航</span>
               <button class="pps-nav-close" @click="navOpen=false">✕</button>
             </div>
+            <!-- Page up arrow -->
+            <button class="pps-nav-page-btn" :disabled="navPage===0" @click="navPage--">
+              <el-icon :size="14"><ArrowUp /></el-icon>
+            </button>
             <div class="pps-nav-grid">
-              <div v-for="(q, idx) in choiceQuestions" :key="'sn'+q.id" class="pps-nav-num" :class="{ active: currentIndex===questions.indexOf(q), correct: q._correct===true, wrong: q._correct===false, done: q._submitted }" @click="loadAnswer(questions.indexOf(q))">{{ questions.indexOf(q) + 1 }}</div>
+              <div v-for="(q, idx) in paginatedNavQuestions" :key="'sn'+q.id" class="pps-nav-num"
+                :class="{ active: currentIndex===navPage*NAV_PAGE_SIZE+idx, correct: q._correct===true, wrong: q._correct===false, done: q._submitted }"
+                @click="loadAnswer(navPage*NAV_PAGE_SIZE+idx)">
+                {{ navPage * NAV_PAGE_SIZE + idx + 1 }}
+              </div>
             </div>
+            <!-- Page down arrow -->
+            <button class="pps-nav-page-btn" :disabled="navPage>=navTotalPages-1" @click="navPage++">
+              <el-icon :size="14"><ArrowDown /></el-icon>
+            </button>
+            <div class="pps-nav-page-info">{{ navPage+1 }}/{{ navTotalPages }} 页</div>
             <div class="pps-nav-legend"><span><i class="pnl-dot active"></i>当前</span><span><i class="pnl-dot done"></i>已答</span><span><i class="pnl-dot correct"></i>正确</span><span><i class="pnl-dot wrong"></i>错误</span></div>
           </aside>
         </div>
@@ -193,6 +206,13 @@ const currentMastery = ref('')
 const submittedMap = ref(new Set())
 const listScrollIdx = ref(0)
 const navOpen = ref(true)
+const navPage = ref(0)
+const NAV_PAGE_SIZE = 25
+const navTotalPages = computed(() => Math.ceil(questions.value.length / NAV_PAGE_SIZE))
+const paginatedNavQuestions = computed(() => {
+  const start = navPage.value * NAV_PAGE_SIZE
+  return questions.value.slice(start, start + NAV_PAGE_SIZE)
+})
 const listFilterYear = ref(null)
 const listFilterType = ref('ALL')
 const listFilterSubjectId = ref(null)
@@ -544,6 +564,10 @@ onMounted(async () => {
 .pps-nav-title { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
 .pps-nav-close { background: none; border: none; cursor: pointer; font-size: 16px; color: #9ca3af; padding: 2px 6px; border-radius: 4px; }
 .pps-nav-close:hover { background: #f3f4f6; color: #374151; }
+.pps-nav-page-btn { width: 100%; padding: 4px 0; border: none; background: #f9fafb; cursor: pointer; color: #6b7280; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin: 6px 0; transition: all 0.15s; }
+.pps-nav-page-btn:hover:not(:disabled) { background: #eef2ff; color: #4f7cff; }
+.pps-nav-page-btn:disabled { opacity: 0.3; cursor: default; }
+.pps-nav-page-info { text-align: center; font-size: 10px; color: #9ca3af; margin-bottom: 4px; }
 .pps-nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
 .pps-nav-num { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; background: #f3f4f6; color: #6b7280; transition: all 0.15s; }
 .pps-nav-num:hover { background: #e0e7ff; color: #4f7cff; }
