@@ -68,13 +68,6 @@
         <div v-else class="pd-empty">请从左侧题号开始答题</div>
       </main>
 
-      <aside class="pd-summary"><h4>答题卡</h4>
-        <div class="pd-summary-grid">
-          <div v-for="(q2,idx2) in questions" :key="'s'+q2.id" class="pd-s-cell"
-            :class="{ done:q2.userAnswer, correct:q2.userCorrect===true, wrong:q2.userCorrect===false, 'm-mastered':q2._mastery==='mastered', 'm-unfamiliar':q2._mastery==='unfamiliar', 'm-dontknow':q2._mastery==='dontknow', 'm-careless':q2._mastery==='careless' }">
-            {{ q2.questionNumber || q2.question_number }}</div>
-        </div>
-      </aside>
     </div>
 
     <div v-else-if="loading" class="pd-loading"><p>加载题目中...</p></div>
@@ -198,12 +191,6 @@ onUnmounted(()=>{window.removeEventListener('keydown',onKeyDown)})
 .pd-result-header{font-size:16px;font-weight:600;margin-bottom:6px}.pd-result-analysis{font-size:14px;line-height:1.7;color:#374151}
 .pd-actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
 .pd-nav-btns{display:flex;align-items:center;gap:12px}.pd-nav-info{font-size:14px;color:#6b7280;font-weight:500}
-.pd-summary{width:180px;background:white;border-left:1px solid #e5e7eb;padding:16px;overflow-y:auto;flex-shrink:0}
-.pd-summary h4{font-size:13px;font-weight:600;color:#6b7280;margin-bottom:12px}
-.pd-summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
-.pd-s-cell{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:11px;font-weight:600;background:#f3f4f6;color:#9ca3af}
-.pd-s-cell.done{background:#dbeafe;color:#4f7cff}.pd-s-cell.correct{background:#c8e6c9;color:#2e7d32}.pd-s-cell.wrong{background:#ffd6d6;color:#c62828}
-.pd-s-cell.m-mastered{background:#c8e6c9;color:#2e7d32}.pd-s-cell.m-unfamiliar{background:#fff3e0;color:#e65100}.pd-s-cell.m-dontknow{background:#fce4ec;color:#c62828}.pd-s-cell.m-careless{background:#ede9fe;color:#6a1b9a}
 .pd-legend{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#9ca3af}
 .pd-ld{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:3px;vertical-align:middle}
 .pd-ld.active{background:#4f7cff}.pd-ld.done{background:#dbeafe}.pd-ld.correct{background:#c8e6c9}.pd-ld.wrong{background:#ffd6d6}
