@@ -165,7 +165,7 @@
             </div>
             <div class="pps-nav-grid">
               <div v-for="(q, idx) in paginatedNavQuestions" :key="'sn'+q.id" class="pps-nav-num"
-                :class="{ active: currentIndex===navPage*NAV_PAGE_SIZE+idx, correct: q._correct===true, wrong: q._correct===false, done: q._submitted }"
+                :class="{ active: currentIndex===navPage*NAV_PAGE_SIZE+idx, correct: q._correct===true, wrong: q._correct===false, done: q._submitted, 'm-mastered': q._mastery==='mastered', 'm-unfamiliar': q._mastery==='unfamiliar', 'm-dontknow': q._mastery==='dontknow', 'm-careless': q._mastery==='careless' }"
                 @click="loadAnswer(navPage*NAV_PAGE_SIZE+idx)">
                 {{ navPage * NAV_PAGE_SIZE + idx + 1 }}
               </div>
@@ -717,6 +717,10 @@ onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 .pps-nav-num.done { background: #dbeafe; color: #4f7cff; }
 .pps-nav-num.correct { background: #c8e6c9; color: #2e7d32; }
 .pps-nav-num.wrong { background: #ffd6d6; color: #c62828; }
+.pps-nav-num.m-mastered { background: #c8e6c9; color: #2e7d32; }
+.pps-nav-num.m-unfamiliar { background: #fff3e0; color: #e65100; }
+.pps-nav-num.m-dontknow { background: #fce4ec; color: #c62828; }
+.pps-nav-num.m-careless { background: #ede9fe; color: #6a1b9a; }
 .pps-nav-legend { margin-top: 12px; display: flex; gap: 6px; font-size: 10px; color: #9ca3af; flex-wrap: wrap; }
 .pnl-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 2px; }
 .pnl-dot.active { background: #4f7cff; }
