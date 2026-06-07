@@ -168,7 +168,8 @@
             </div>
             <div class="pps-nav-pager">
               <button :disabled="navPage===0" @click="navPage--">◀</button>
-              <span>{{ navPage+1 }} / {{ navTotalPages }}</span>
+              <input class="pps-nav-pinp" :value="navPage+1" @keydown.enter="jumpNavPage($event)" @blur="jumpNavPage($event)" />
+              <span>/ {{ navTotalPages }}</span>
               <button :disabled="navPage>=navTotalPages-1" @click="navPage++">▶</button>
             </div>
             <div class="pps-nav-legend"><span><i class="pnl-dot active"></i>当前</span><span><i class="pnl-dot done"></i>已答</span><span><i class="pnl-dot correct"></i>正确</span><span><i class="pnl-dot wrong"></i>错误</span></div>
@@ -209,6 +210,11 @@ const paginatedNavQuestions = computed(() => {
   const start = navPage.value * NAV_PAGE_SIZE
   return questions.value.slice(start, start + NAV_PAGE_SIZE)
 })
+function jumpNavPage(e: Event) {
+  const v = parseInt((e.target as HTMLInputElement).value)
+  if (v >= 1 && v <= navTotalPages.value) navPage.value = v - 1
+  else (e.target as HTMLInputElement).value = String(navPage.value + 1)
+}
 // Auto-sync nav page to current question
 watch(currentIndex, (idx) => { navPage.value = Math.floor(idx / NAV_PAGE_SIZE) })
 const listFilterYear = ref(null)
@@ -562,11 +568,13 @@ onMounted(async () => {
 .pps-nav-title { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
 .pps-nav-close { background: none; border: none; cursor: pointer; font-size: 16px; color: #9ca3af; padding: 2px 6px; border-radius: 4px; }
 .pps-nav-close:hover { background: #f3f4f6; color: #374151; }
-.pps-nav-pager { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; }
+.pps-nav-pager { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; }
 .pps-nav-pager button { width: 24px; height: 24px; border: 1px solid #e5e7eb; border-radius: 6px; background: white; cursor: pointer; font-size: 10px; color: #6b7280; display: flex; align-items: center; justify-content: center; }
 .pps-nav-pager button:hover:not(:disabled) { background: #eef2ff; color: #4f7cff; border-color: #4f7cff; }
 .pps-nav-pager button:disabled { opacity: 0.25; cursor: default; }
-.pps-nav-pager span { font-size: 11px; color: #6b7280; font-weight: 500; }
+.pps-nav-pager span { font-size: 11px; color: #6b7280; }
+.pps-nav-pinp { width: 28px; height: 22px; text-align: center; border: 1px solid #e5e7eb; border-radius: 4px; font-size: 11px; outline: none; color: #374151; }
+.pps-nav-pinp:focus { border-color: #4f7cff; }
 .pps-nav-page-ctl { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 10px; }
 .pps-nav-page-sm { border: none; background: #f3f4f6; cursor: pointer; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #6b7280; }
 .pps-nav-page-sm:hover:not(:disabled) { background: #eef2ff; color: #4f7cff; }
