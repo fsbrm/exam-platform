@@ -16,6 +16,10 @@
                 <div class="today-detail"><span class="tc">{{ todayCorrect }} 正确</span><span class="sep">·</span><span class="te">{{ todayCount - todayCorrect }} 错误</span><span class="sep">·</span><span>正确率 {{ todayCount>0 ? Math.round(todayCorrect/todayCount*100) : 0 }}%</span></div>
               </div>
               <div v-else class="today-box dim"><div class="today-big">0<span>题</span></div><div class="today-detail">今天还没刷题，去练几道吧~</div></div>
+              <div class="today-cta" @click="$router.push('/papers')">
+                <span>去真题总览刷题</span>
+                <svg class="cta-svg" viewBox="0 0 24 24" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
             </div>
             <div class="section-card">
               <h3>📊 科目掌握度</h3>
@@ -27,11 +31,6 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="home-cta-row" @click="$router.push('/papers')">
-            <div class="hcr-left"><span class="hcr-icon">📋</span><span>真题总览 · 选择年份开始刷题</span></div>
-            <span class="cta-arrow">→</span>
           </div>
 
           <div class="section-card" v-if="weakPoints.length > 0">
@@ -210,11 +209,10 @@ watch(lbTab, loadLeaderboard)
 .hero{text-align:center;padding:30px 0 20px}
 .hero h1{font-size:28px;font-weight:800;color:#1f2937;margin-bottom:4px}
 .hero p{font-size:14px;color:#9ca3af}
-.home-cta-row{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:linear-gradient(135deg,#4f7cff,#6366f1);border-radius:14px;cursor:pointer;color:white;font-size:15px;font-weight:600;transition:all .3s;box-shadow:0 4px 16px rgba(79,124,255,.25);margin-bottom:16px}
-.home-cta-row:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(79,124,255,.4)}
-.hcr-left{display:flex;align-items:center;gap:10px}.hcr-icon{font-size:20px}
-.cta-arrow{display:inline-block;font-size:22px;animation:cta-bounce .8s ease-in-out infinite}
-@keyframes cta-bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+.today-cta{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;padding:8px;border-radius:10px;background:#f0f4ff;color:#4f7cff;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.today-cta:hover{background:#e0e7ff}
+.cta-svg{animation:cta-bounce .8s ease-in-out infinite}
+@keyframes cta-bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
 .main-layout{display:grid;grid-template-columns:1fr 280px;gap:16px}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;position:relative}
 .stats-row.clickable{cursor:pointer;transition:all .2s}.stats-row.clickable:hover{transform:translateY(-2px)}
