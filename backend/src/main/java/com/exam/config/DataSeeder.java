@@ -20,7 +20,8 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         // Ensure schema migrations (safe idempotent ALTERs)
-        try { jdbcTemplate.update("ALTER TABLE question ADD COLUMN IF NOT EXISTS video_url VARCHAR(500)"); } catch (Exception ignored) {}
+        try { jdbcTemplate.update("ALTER TABLE question ADD COLUMN video_url VARCHAR(500)"); } catch (Exception ignored) {}
+        try { jdbcTemplate.update("ALTER TABLE user_answer ADD COLUMN IF NOT EXISTS answered_at DATETIME"); } catch (Exception ignored) {}
 
         // Check if seed is complete (chapters exist = fully seeded)
         try {
