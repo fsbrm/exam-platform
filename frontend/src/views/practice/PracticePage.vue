@@ -174,7 +174,12 @@
             <button class="pps-nav-page-btn" :disabled="navPage>=navTotalPages-1" @click="navPage++">
               <el-icon :size="14"><ArrowDown /></el-icon>
             </button>
-            <div class="pps-nav-page-info">{{ navPage+1 }}/{{ navTotalPages }} 页</div>
+            <div class="pps-nav-page-ctl">
+              <button class="pps-nav-page-sm" :disabled="navPage===0" @click="navPage--">◀</button>
+              <input class="pps-nav-page-inp" type="number" :min="1" :max="navTotalPages" :value="navPage+1" @change="jumpNavPage($event)" />
+              <span class="pps-nav-page-spl">/ {{ navTotalPages }}</span>
+              <button class="pps-nav-page-sm" :disabled="navPage>=navTotalPages-1" @click="navPage++">▶</button>
+            </div>
             <div class="pps-nav-legend"><span><i class="pnl-dot active"></i>当前</span><span><i class="pnl-dot done"></i>已答</span><span><i class="pnl-dot correct"></i>正确</span><span><i class="pnl-dot wrong"></i>错误</span></div>
           </aside>
         </div>
@@ -213,6 +218,12 @@ const paginatedNavQuestions = computed(() => {
   const start = navPage.value * NAV_PAGE_SIZE
   return questions.value.slice(start, start + NAV_PAGE_SIZE)
 })
+function jumpNavPage(e: Event) {
+  const v = parseInt((e.target as HTMLInputElement).value)
+  if (v >= 1 && v <= navTotalPages.value) navPage.value = v - 1
+}
+// Auto-sync nav page to current question
+watch(currentIndex, (idx) => { navPage.value = Math.floor(idx / NAV_PAGE_SIZE) })
 const listFilterYear = ref(null)
 const listFilterType = ref('ALL')
 const listFilterSubjectId = ref(null)
@@ -568,6 +579,13 @@ onMounted(async () => {
 .pps-nav-page-btn:hover:not(:disabled) { background: #eef2ff; color: #4f7cff; }
 .pps-nav-page-btn:disabled { opacity: 0.3; cursor: default; }
 .pps-nav-page-info { text-align: center; font-size: 10px; color: #9ca3af; margin-bottom: 4px; }
+.pps-nav-page-ctl { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 10px; }
+.pps-nav-page-sm { border: none; background: #f3f4f6; cursor: pointer; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #6b7280; }
+.pps-nav-page-sm:hover:not(:disabled) { background: #eef2ff; color: #4f7cff; }
+.pps-nav-page-sm:disabled { opacity: 0.3; cursor: default; }
+.pps-nav-page-inp { width: 32px; height: 20px; text-align: center; border: 1px solid #e5e7eb; border-radius: 4px; font-size: 11px; color: #374151; outline: none; }
+.pps-nav-page-inp:focus { border-color: #4f7cff; }
+.pps-nav-page-spl { font-size: 11px; color: #9ca3af; }
 .pps-nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
 .pps-nav-num { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; background: #f3f4f6; color: #6b7280; transition: all 0.15s; }
 .pps-nav-num:hover { background: #e0e7ff; color: #4f7cff; }
