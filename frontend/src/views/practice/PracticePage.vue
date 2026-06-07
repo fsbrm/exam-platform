@@ -245,7 +245,11 @@ function onKeyDown(e: KeyboardEvent) {
   if (e.key === 'Enter' && !showResult.value && canSubmit.value) submitAnswer()
   if (e.key === 'ArrowLeft' && currentIndex.value > 0) prevQuestion()
   if (e.key === 'ArrowRight' && currentIndex.value < questions.value.length - 1) nextQuestion()
-  if (e.key === 'Escape') { if (!showResult.value) viewSingleAnswer() }
+  if (e.key === 'c' || e.key === 'C') toggleFavorite()
+  if (e.key === 'q' || e.key === 'Q') markMastery('mastered')
+  if (e.key === 'w' || e.key === 'W') markMastery('unfamiliar')
+  if (e.key === 'e' || e.key === 'E') markMastery('dontknow')
+  if (e.key === 'r' || e.key === 'R') markMastery('careless')
 }
 
 // Combo tracking
@@ -259,6 +263,7 @@ function triggerCombo(isCorrect: boolean) {
     else if (comboCount.value === 12) flashCombo('长风破浪会有时，直挂云帆济沧海 ⛵')
     else if (comboCount.value === 18) flashCombo('大鹏一日同风起，扶摇直上九万里 🦅')
     else if (comboCount.value === 25) flashCombo('会当凌绝顶，一览众山小 🏔️')
+    else if (comboCount.value === 30) flashCombo('杀~杀~杀~！ ⚔️')
   } else {
     comboCount.value = 0
   }
