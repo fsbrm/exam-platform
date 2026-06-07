@@ -253,10 +253,12 @@ function triggerCombo(isCorrect: boolean) {
   if (!comboEnabled()) return
   if (isCorrect) {
     comboCount.value++
-    if (comboCount.value === 3) flashCombo('三连击！🔥')
-    else if (comboCount.value === 5) flashCombo('五连绝世！💀💀')
-    else if (comboCount.value === 10) flashCombo('十全十美！👑')
-    else if (comboCount.value === 20) flashCombo('题海无涯，回头是岸 🌊')
+    if (comboCount.value === 3) flashCombo('春风若有怜花意，可否许我再少年 🌸')
+    else if (comboCount.value === 5) flashCombo('须知少日拏云志，曾许人间第一流 ⛰️')
+    else if (comboCount.value === 8) flashCombo('仰天大笑出门去，我辈岂是蓬蒿人 🎋')
+    else if (comboCount.value === 12) flashCombo('长风破浪会有时，直挂云帆济沧海 ⛵')
+    else if (comboCount.value === 18) flashCombo('大鹏一日同风起，扶摇直上九万里 🦅')
+    else if (comboCount.value === 25) flashCombo('会当凌绝顶，一览众山小 🏔️')
   } else {
     comboCount.value = 0
   }
@@ -635,7 +637,7 @@ onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 .ppfb-row1 { display: flex; align-items: center; justify-content: flex-end; padding: 6px 0; max-width: 1100px; margin: 0 auto; }
 .ppfb-count { font-size: 13px; color: #9ca3af; }
 .pp-float-nav-btn { position: fixed; right: 40px; top: 76px; z-index: 90; padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; }
-.pp-float-combo { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 200; font-size: 42px; font-weight: 900; color: #f59e0b; text-shadow: 0 4px 20px rgba(245,158,11,0.5); pointer-events: none; animation: combo-pop 0.5s ease-out; white-space: nowrap; }
+.pp-float-combo { position: fixed; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 200; font-size: 28px; font-weight: 700; color: #4f7cff; text-shadow: 0 2px 16px rgba(79,124,255,0.25); pointer-events: none; animation: combo-pop 0.6s ease-out; white-space: nowrap; font-family: 'KaiTi','STKaiti','楷体',serif; }
 @keyframes combo-pop { 0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 .pp-float-nav-btn:hover { color: #4f7cff; }
 .pp-float-mode { position: fixed; left: 40px; top: 76px; z-index: 90; display: flex; flex-direction: column; gap: 6px; }
