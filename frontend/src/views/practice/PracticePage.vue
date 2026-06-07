@@ -174,12 +174,7 @@
             <button class="pps-nav-page-btn" :disabled="navPage>=navTotalPages-1" @click="navPage++">
               <el-icon :size="14"><ArrowDown /></el-icon>
             </button>
-            <div class="pps-nav-page-ctl">
-              <button class="pps-nav-page-sm" :disabled="navPage===0" @click="navPage--">◀</button>
-              <input class="pps-nav-page-inp" type="number" :min="1" :max="navTotalPages" :value="navPage+1" @change="jumpNavPage($event)" />
-              <span class="pps-nav-page-spl">/ {{ navTotalPages }}</span>
-              <button class="pps-nav-page-sm" :disabled="navPage>=navTotalPages-1" @click="navPage++">▶</button>
-            </div>
+            <div class="pps-nav-page-info">{{ navPage+1 }}/{{ navTotalPages }} 页</div>
             <div class="pps-nav-legend"><span><i class="pnl-dot active"></i>当前</span><span><i class="pnl-dot done"></i>已答</span><span><i class="pnl-dot correct"></i>正确</span><span><i class="pnl-dot wrong"></i>错误</span></div>
           </aside>
         </div>
@@ -218,10 +213,6 @@ const paginatedNavQuestions = computed(() => {
   const start = navPage.value * NAV_PAGE_SIZE
   return questions.value.slice(start, start + NAV_PAGE_SIZE)
 })
-function jumpNavPage(e: Event) {
-  const v = parseInt((e.target as HTMLInputElement).value)
-  if (v >= 1 && v <= navTotalPages.value) navPage.value = v - 1
-}
 // Auto-sync nav page to current question
 watch(currentIndex, (idx) => { navPage.value = Math.floor(idx / NAV_PAGE_SIZE) })
 const listFilterYear = ref(null)
