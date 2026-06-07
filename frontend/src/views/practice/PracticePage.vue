@@ -29,6 +29,8 @@
             <el-option v-for="(q, idx) in filteredListQuestions" :key="q.id" :label="(q.year||'')+'年'+(q.questionNumber||idx+1)+'题'" :value="idx" />
           </el-select>
         </div>
+      <!-- Floating combo display -->
+      <div v-if="comboEnabled() && showCombo" class="pp-float-combo">{{ comboTxt }}</div>
       <!-- Floating nav toggle (top-right, only when nav closed) -->
       <button v-if="viewMode==='single' && !navOpen" class="pp-float-nav-btn" @click="navOpen=true">☰ {{ questions.length }}题</button>
       <!-- Floating mode switch -->
@@ -175,7 +177,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import api from '@/api'
@@ -225,6 +227,44 @@ const showNotePanel = ref(false)
 const currentNote = ref('')
 const showVideos = ref(false)
 const feedbackEnabled = () => localStorage.getItem('practice_feedback') === 'true'
+const keyboardEnabled = () => localStorage.getItem('practice_keyboard') === 'true'
+const comboEnabled = () => localStorage.getItem('practice_combo') === 'true'
+const comboCount = ref(0)
+const showCombo = ref(false)
+const comboTxt = ref('')
+
+// Keyboard shortcuts
+function onKeyDown(e: KeyboardEvent) {
+  if (!keyboardEnabled() || viewMode.value !== 'single' || !currentQuestion.value) return
+  const q = currentQuestion.value
+  if (e.key >= '1' && e.key <= '9' && !showResult.value && ['SINGLE','MULTI'].includes(q.type)) {
+    const idx = parseInt(e.key) - 1
+    const opts = parsedOptions.value
+    if (idx < opts.length) selectOption(opts[idx].key)
+  }
+  if (e.key === 'Enter' && !showResult.value && canSubmit.value) submitAnswer()
+  if (e.key === 'ArrowLeft' && currentIndex.value > 0) prevQuestion()
+  if (e.key === 'ArrowRight' && currentIndex.value < questions.value.length - 1) nextQuestion()
+  if (e.key === 'Escape') { if (!showResult.value) viewSingleAnswer() }
+}
+
+// Combo tracking
+function triggerCombo(isCorrect: boolean) {
+  if (!comboEnabled()) return
+  if (isCorrect) {
+    comboCount.value++
+    if (comboCount.value === 3) flashCombo('三连击！🔥')
+    else if (comboCount.value === 5) flashCombo('五连绝世！💀💀')
+    else if (comboCount.value === 10) flashCombo('十全十美！👑')
+    else if (comboCount.value === 20) flashCombo('题海无涯，回头是岸 🌊')
+  } else {
+    comboCount.value = 0
+  }
+}
+function flashCombo(txt: string) {
+  comboTxt.value = txt; showCombo.value = true
+  setTimeout(() => { showCombo.value = false }, 2500)
+}
 
 // Floating feedback animation
 function showFeedback(isCorrect: boolean) {
@@ -365,6 +405,7 @@ async function submitListAnswer(q, qi) {
       if (viewMode.value === 'single') currentMastery.value = q._mastery
       await markMasteryForQuestion(q, q._mastery)
       showFeedback(res.data.isCorrect)
+      triggerCombo(res.data.isCorrect)
     }
   } catch {}
 }
@@ -400,6 +441,7 @@ async function submitAnswer() {
       currentMastery.value = q._mastery
       await markMasteryForQuestion(q, q._mastery)
       showFeedback(res.data.isCorrect)
+      triggerCombo(res.data.isCorrect)
     }
   } catch {}
 }
@@ -583,7 +625,9 @@ onMounted(async () => {
     }
   } catch (e) { ElMessage.error('加载题目失败') } finally { loading.value = false }
   loadMastery()
+  window.addEventListener('keydown', onKeyDown)
 })
+onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 </script>
 
 <style scoped>
@@ -591,6 +635,8 @@ onMounted(async () => {
 .ppfb-row1 { display: flex; align-items: center; justify-content: flex-end; padding: 6px 0; max-width: 1100px; margin: 0 auto; }
 .ppfb-count { font-size: 13px; color: #9ca3af; }
 .pp-float-nav-btn { position: fixed; right: 40px; top: 76px; z-index: 90; padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; }
+.pp-float-combo { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 200; font-size: 42px; font-weight: 900; color: #f59e0b; text-shadow: 0 4px 20px rgba(245,158,11,0.5); pointer-events: none; animation: combo-pop 0.5s ease-out; white-space: nowrap; }
+@keyframes combo-pop { 0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 .pp-float-nav-btn:hover { color: #4f7cff; }
 .pp-float-mode { position: fixed; left: 40px; top: 76px; z-index: 90; display: flex; flex-direction: column; gap: 6px; }
 .pp-float-mode button { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; text-align: left; }

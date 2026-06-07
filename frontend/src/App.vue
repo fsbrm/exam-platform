@@ -15,7 +15,15 @@
             <div class="ph-settings-drop" v-if="showSettings">
               <div class="psd-item">
                 <span>做题反馈</span>
-                <el-switch v-model="feedbackEnabled" size="small" @change="saveFeedbackSetting" />
+                <el-switch v-model="feedbackEnabled" size="small" @change="saveSetting" />
+              </div>
+              <div class="psd-item">
+                <span>键盘快捷键</span>
+                <el-switch v-model="keyboardEnabled" size="small" @change="saveSetting" />
+              </div>
+              <div class="psd-item">
+                <span>连击计数</span>
+                <el-switch v-model="comboEnabled" size="small" @change="saveSetting" />
               </div>
             </div>
           </div>
@@ -86,7 +94,13 @@ const route = useRoute()
 // Practice settings
 const showSettings = ref(false)
 const feedbackEnabled = ref(localStorage.getItem('practice_feedback') === 'true')
-function saveFeedbackSetting() { localStorage.setItem('practice_feedback', String(feedbackEnabled.value)) }
+const keyboardEnabled = ref(localStorage.getItem('practice_keyboard') === 'true')
+const comboEnabled = ref(localStorage.getItem('practice_combo') === 'true')
+function saveSetting() {
+  localStorage.setItem('practice_feedback', String(feedbackEnabled.value))
+  localStorage.setItem('practice_keyboard', String(keyboardEnabled.value))
+  localStorage.setItem('practice_combo', String(comboEnabled.value))
+}
 
 function logout() {
   userStore.logout()
