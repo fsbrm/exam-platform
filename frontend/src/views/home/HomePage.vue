@@ -69,7 +69,7 @@
         <div class="side-card">
           <div class="cal-nav"><span class="cal-arrow" @click="prevMonth">◀</span><span class="cal-month-label">{{ calYear }}年 {{ calMonth }}月</span><span class="cal-arrow" @click="nextMonth">▶</span></div>
           <div class="cal-weekdays"><span v-for="wd in weekDays" :key="wd">{{ wd }}</span></div>
-          <div class="cal-grid"><div v-for="(d,i) in calMonthDays" :key="i" class="cal-cell" :class="[d.inMonth?'lvl'+d.level:'','!d.inMonth?out-month':'']" :title="d.inMonth?d.label:''"><span class="cal-day">{{ d.day }}</span></div></div>
+          <div class="cal-grid"><div v-for="(d,i) in calMonthDays" :key="i" class="cal-cell" :class="[d.inMonth?'lvl'+d.level:'',!d.inMonth?'out-month':'']" :title="d.inMonth?d.label:''"><span class="cal-day">{{ d.day }}</span></div></div>
           <div class="cal-legend"><span>少</span><span class="cl-dot lvl0"></span><span class="cl-dot lvl1"></span><span class="cl-dot lvl2"></span><span class="cl-dot lvl3"></span><span class="cl-dot lvl4"></span><span>多</span></div>
           <div class="cal-footer">🔥 连续 {{ overview.streakDays||0 }} 天 · 📅 累计 {{ overview.studyDays||0 }} 天</div>
         </div>
