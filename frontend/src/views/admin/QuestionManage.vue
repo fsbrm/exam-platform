@@ -120,7 +120,7 @@ const years = Array.from({length: 2025-2009+1},(_,i)=>2009+i)
 const editing = ref<any>(null)
 const form = ref({
   subjectId: 1 as number|null, chapterId: null as number|null, year: null as number|null,
-  type: 'SINGLE', difficulty: 'MEDIUM', content: '', answer: '',
+  type: 'SINGLE', difficulty: 'MEDIUM', content: '', options: '', answer: '',
   analysis: '', image: '', videoUrl: '', statusBool: true
 })
 const optsList = ref<{key:string,value:string}[]>([{key:'A',value:''},{key:'B',value:''},{key:'C',value:''},{key:'D',value:''}])
@@ -167,7 +167,7 @@ function openEdit(q:any){
 }
 function resetForm(){
   editing.value=null
-  form.value = {subjectId:1,chapterId:null,year:null,type:'SINGLE',difficulty:'MEDIUM',content:'',answer:'',analysis:'',image:'',videoUrl:'',statusBool:true}
+  form.value = {subjectId:1,chapterId:null,year:null,type:'SINGLE',difficulty:'MEDIUM',content:'',options:'',answer:'',analysis:'',image:'',videoUrl:'',statusBool:true}
   optsList.value = [{key:'A',value:''},{key:'B',value:''},{key:'C',value:''},{key:'D',value:''}]
 }
 function syncOpts(){ form.value.options = JSON.stringify(optsList.value.filter(o=>o.value)) }

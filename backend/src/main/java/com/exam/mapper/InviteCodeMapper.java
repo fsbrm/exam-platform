@@ -12,7 +12,7 @@ import java.util.Map;
 @Mapper
 public interface InviteCodeMapper extends BaseMapper<InviteCode> {
 
-    @Select("SELECT code, used, used_at as usedAt, created_at as createdAt FROM invite_code ORDER BY created_at DESC LIMIT #{limit} OFFSET #{offset}")
+    @Select("SELECT id, code, used, used_at as usedAt, created_at as createdAt, created_by as createdBy, used_by as usedBy FROM invite_code ORDER BY created_at DESC LIMIT #{limit} OFFSET #{offset}")
     List<Map<String, Object>> pageQuery(@Param("limit") int limit, @Param("offset") int offset);
 
     @Select("SELECT COUNT(*) FROM invite_code")
