@@ -7,11 +7,12 @@
 
     <div class="main-layout">
       <div class="main-col">
-        <section class="stats-row" v-if="userStore.isLoggedIn">
+        <section class="stats-row clickable" v-if="userStore.isLoggedIn" @click="$router.push('/papers')">
           <div class="stat-card c1"><div class="sc-num">{{ overview.totalQuestions || 0 }}</div><div class="sc-unit">题已刷</div></div>
           <div class="stat-card c2"><div class="sc-num">{{ overview.accuracy || 0 }}%</div><div class="sc-unit">正确率</div></div>
           <div class="stat-card c3"><div class="sc-num">{{ overview.streakDays || 0 }}<span class="sc-sfx">天</span></div><div class="sc-unit">连续打卡</div></div>
           <div class="stat-card c4"><div class="sc-num">{{ overview.studyDays || 0 }}<span class="sc-sfx">天</span></div><div class="sc-unit">累计学习</div></div>
+          <span class="stats-arrow">▸ 开始刷题</span>
         </section>
 
         <template v-if="userStore.isLoggedIn">
@@ -210,8 +211,12 @@ onMounted(async () => {
 .hero h1{font-size:28px;font-weight:800;color:#1f2937;margin-bottom:4px}
 .hero p{font-size:14px;color:#9ca3af}
 .main-layout{display:grid;grid-template-columns:1fr 280px;gap:16px}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.stat-card{background:white;border-radius:14px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;position:relative}
+.stats-row.clickable{cursor:pointer;transition:all .2s}.stats-row.clickable:hover{transform:translateY(-2px)}
+.stats-row.clickable:hover .stat-card{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.stat-card{background:white;border-radius:14px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:box-shadow .2s}
+.stats-arrow{position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:13px;color:#9ca3af;opacity:0;transition:all .2s;pointer-events:none}
+.stats-row.clickable:hover .stats-arrow{opacity:1;right:-32px;color:#4f7cff}
 .stat-card.c1 .sc-num{color:#4f7cff}.stat-card.c2 .sc-num{color:#52c41a}.stat-card.c3 .sc-num{color:#fa8c16}.stat-card.c4 .sc-num{color:#9c27b0}
 .sc-num{font-size:32px;font-weight:800;display:flex;align-items:baseline;justify-content:center;gap:2px}
 .sc-sfx{font-size:16px;font-weight:500;color:#9ca3af}
