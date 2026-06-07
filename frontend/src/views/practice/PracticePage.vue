@@ -34,8 +34,9 @@
       <!-- Combo counter -->
       <div v-if="comboEnabled() && comboCount > 1" class="pp-combo-badge">{{ comboCount }}连</div>
       <!-- Subtle keyboard hint -->
-      <div v-if="keyboardEnabled()" class="pp-kb-hint">
+      <div v-if="keyboardEnabled && !kbHintClosed" class="pp-kb-hint">
         <span>1-4 选项</span><span>Space 提交</span><span>←→ 切换</span><span>Q/E 掌握/不会</span><span>C 收藏</span>
+        <button class="pp-kb-close" @click="kbHintClosed=true" title="关闭">✕</button>
       </div>
       <!-- Floating nav toggle (top-right, only when nav closed) -->
       <button v-if="viewMode==='single' && !navOpen" class="pp-float-nav-btn" @click="navOpen=true">☰ {{ questions.length }}题</button>
@@ -233,15 +234,21 @@ const showNotePanel = ref(false)
 const currentNote = ref('')
 const showVideos = ref(false)
 const feedbackEnabled = () => localStorage.getItem('practice_feedback') === 'true'
-const keyboardEnabled = () => localStorage.getItem('practice_keyboard') === 'true'
+const keyboardEnabled = ref(localStorage.getItem('practice_keyboard') === 'true')
 const comboEnabled = () => localStorage.getItem('practice_combo') === 'true'
+const kbHintClosed = ref(false)
+// Poll for keyboard setting changes (App.vue writes to localStorage)
+setInterval(() => {
+  const v = localStorage.getItem('practice_keyboard') === 'true'
+  if (v !== keyboardEnabled.value) { keyboardEnabled.value = v; kbHintClosed.value = false }
+}, 1000)
 const comboCount = ref(0)
 const showCombo = ref(false)
 const comboTxt = ref('')
 
 // Keyboard shortcuts
 function onKeyDown(e: KeyboardEvent) {
-  if (!keyboardEnabled() || viewMode.value !== 'single' || !currentQuestion.value) return
+  if (!keyboardEnabled || viewMode.value !== 'single' || !currentQuestion.value) return
   const q = currentQuestion.value
   if (e.key >= '1' && e.key <= '9' && !showResult.value && ['SINGLE','MULTI'].includes(q.type)) {
     const idx = parseInt(e.key) - 1
@@ -650,6 +657,8 @@ onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 .pp-float-nav-btn { position: fixed; right: 40px; top: 76px; z-index: 90; padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; }
 .pp-kb-hint { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 80; display: flex; gap: 10px; padding: 4px 14px; border-radius: 20px; background: rgba(255,255,255,0.5); backdrop-filter: blur(4px); font-size: 10px; color: #c4c4c4; white-space: nowrap; }
 .pp-kb-hint span { opacity: 0.6; }
+.pp-kb-close { background: none; border: none; cursor: pointer; color: #c4c4c4; font-size: 10px; padding: 0 2px; margin-left: 4px; }
+.pp-kb-close:hover { color: #6b7280; }
 .pp-combo-badge { position: fixed; top: 76px; left: 50%; transform: translateX(-50%); z-index: 80; padding: 3px 10px; border-radius: 10px; background: rgba(79,124,255,0.08); font-size: 12px; color: #4f7cff; font-weight: 600; }
 .pp-float-combo { position: fixed; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 200; font-size: 28px; font-weight: 700; color: #4f7cff; text-shadow: 0 2px 16px rgba(79,124,255,0.25); pointer-events: none; animation: combo-pop 0.6s ease-out; white-space: nowrap; font-family: 'KaiTi','STKaiti','楷体',serif; }
 @keyframes combo-pop { 0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
