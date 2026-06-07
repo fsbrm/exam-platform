@@ -227,14 +227,16 @@ const feedbackEnabled = () => localStorage.getItem('practice_feedback') === 'tru
 // Floating feedback animation
 function showFeedback(isCorrect: boolean) {
   if (!feedbackEnabled()) return
-  const texts = isCorrect
-    ? ['Niceeee~~~ 🎉', '太棒了！✨', '真厉害！🔥', '稳准狠！💯']
-    : ['我真受不了嘞！ 😤', '又错了... 💔', '再想想！🤔', '差一点！😭']
-  const count = 1 + Math.floor(Math.random() * 3) // 1-3 texts
-  for (let i = 0; i < count; i++) {
+  const main = isCorrect ? 'Niceeee~~~ 🎉' : '我真受不了嘞！ 😤'
+  const extras = isCorrect
+    ? ['太棒了！✨', '真厉害！🔥', '稳准狠！💯']
+    : ['又错了... 💔', '再想想！🤔', '差一点！😭']
+  const count = 1 + (Math.random() < 0.6 ? Math.floor(Math.random() * 3) : 0) // always main + maybe extras
+  const allTexts = [main, ...extras].slice(0, count)
+  for (let i = 0; i < allTexts.length; i++) {
     const el = document.createElement('div')
     el.className = 'feedback-float ' + (isCorrect ? 'fb-correct' : 'fb-wrong')
-    el.textContent = texts[Math.floor(Math.random() * texts.length)]
+    el.textContent = allTexts[i]
     // Random speed: 4-7 seconds, random delay
     el.style.animationDuration = (4 + Math.random() * 3) + 's'
     el.style.top = (25 + Math.random() * 35) + '%'
