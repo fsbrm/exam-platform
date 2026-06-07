@@ -287,14 +287,28 @@ function triggerCombo(isCorrect: boolean) {
     comboCount.value = 0
   }
 }
+const comboSupressFeedback = ref(false)
 function flashCombo(txt: string) {
   comboTxt.value = txt; showCombo.value = true
-  setTimeout(() => { showCombo.value = false }, 2500)
+  setTimeout(() => { showCombo.value = false }, 2800)
+}
+function triggerCombo(isCorrect: boolean) {
+  if (!comboEnabled()) return
+  if (isCorrect) {
+    comboCount.value++
+    if (comboCount.value > bestCombo.value) { bestCombo.value = comboCount.value; localStorage.setItem('practice_best_combo', String(bestCombo.value)) }
+  } else { comboCount.value = 0 }
+  const texts: Record<number,string> = {3:'春风若有怜花意，可否许我再少年 🌸',5:'须知少日拏云志，曾许人间第一流 ⛰️',8:'仰天大笑出门去，我辈岂是蓬蒿人 🎋',12:'长风破浪会有时，直挂云帆济沧海 ⛵',18:'大鹏一日同风起，扶摇直上九万里 🦅',25:'会当凌绝顶，一览众山小 🏔️',30:'杀~杀~杀~！ ⚔️'}
+  if (isCorrect && texts[comboCount.value]) {
+    comboSupressFeedback.value = true
+    flashCombo(texts[comboCount.value])
+    setTimeout(() => { comboSupressFeedback.value = false }, 3000)
+  }
 }
 
 // Floating feedback animation
 function showFeedback(isCorrect: boolean) {
-  if (!feedbackEnabled()) return
+  if (!feedbackEnabled() || comboSupressFeedback.value) return
   const main = isCorrect ? 'Niceeee~~~ 🎉' : '我真受不了嘞！ 😤'
   const extras = isCorrect
     ? ['太棒了！✨', '真厉害！🔥', '稳准狠！💯']
@@ -672,8 +686,8 @@ onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 .pp-kb-hint span { opacity: 0.6; }
 .pp-kb-close { background: none; border: none; cursor: pointer; color: #c4c4c4; font-size: 10px; padding: 0 2px; margin-left: 4px; }
 .pp-kb-close:hover { color: #6b7280; }
-.pp-float-combo { position: fixed; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 200; font-size: 28px; font-weight: 700; color: #4f7cff; text-shadow: 0 2px 16px rgba(79,124,255,0.25); pointer-events: none; animation: combo-pop 0.6s ease-out; white-space: nowrap; font-family: 'KaiTi','STKaiti','楷体',serif; }
-@keyframes combo-pop { 0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+.pp-float-combo { position: fixed; top: 50%; left: 50%; z-index: 300; font-size: 36px; font-weight: 900; color: #4f7cff; pointer-events: none; white-space: nowrap; font-family: 'KaiTi','STKaiti','楷体',serif; animation: combo-pop 2.8s ease-out forwards; }
+@keyframes combo-pop { 0%{transform:translate(-50%,-50%) scale(.1);opacity:0;text-shadow:0 0 0 rgba(79,124,255,0)} 15%{transform:translate(-50%,-50%) scale(1.35);opacity:1;text-shadow:0 0 50px rgba(79,124,255,.7),0 0 100px rgba(79,124,255,.3)} 30%{transform:translate(-50%,-50%) scale(1);opacity:1;text-shadow:0 0 30px rgba(79,124,255,.4)} 70%{opacity:1;transform:translate(-50%,-50%) scale(1.05)} 100%{transform:translate(-50%,-50%) scale(2);opacity:0;text-shadow:0 0 80px rgba(79,124,255,0)} }
 .pp-float-nav-btn:hover { color: #4f7cff; }
 .pp-float-mode { position: fixed; left: 40px; top: 76px; z-index: 90; display: flex; flex-direction: column; gap: 6px; }
 .pp-float-combo-panel { position: fixed; left: 40px; top: 174px; z-index: 90; background: rgba(255,255,255,.8); backdrop-filter: blur(6px); border-radius: 10px; padding: 8px 14px; font-size: 12px; color: #6b7280; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
