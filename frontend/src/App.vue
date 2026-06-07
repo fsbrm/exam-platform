@@ -237,8 +237,8 @@ a { text-decoration: none; }
 }
 </style>
 <style>
-.img-watermark-wrap { position: relative; display: inline-block; max-width: 100%; }
-.img-watermark-wrap img { display: block; max-width: 100%; }
+.img-watermark-wrap { position: relative; display: inline-block; max-width: 100%; vertical-align: top; }
+.img-watermark-wrap img { display: block; max-width: 100%; height: auto; }
 .img-watermark-wrap::after {
   content: 'fsbrm'; position: absolute; bottom: 8px; right: 8px;
   color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 700;
