@@ -85,8 +85,10 @@ a { text-decoration: none; }
 .app-header {
   background: white;
   border-bottom: 1px solid #e5e7eb;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
@@ -154,7 +156,7 @@ a { text-decoration: none; }
   font-size: 12px;
   cursor: pointer;
 }
-.app-main { min-height: calc(100vh - 56px); }
+.app-main { padding-top: 56px; min-height: 100vh; }
 .ph-back { display: flex; align-items: center; gap: 4px; background: none; border: none; color: #6b7280; font-size: 13px; cursor: pointer; padding: 6px 12px; border-radius: 6px; }
 .ph-back:hover { background: #f0f4ff; color: #4f7cff; }
 .ph-title { font-size: 16px; font-weight: 700; color: #4f7cff; }
