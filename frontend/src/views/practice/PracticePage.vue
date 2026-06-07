@@ -330,6 +330,7 @@ async function submitListAnswer(q, qi) {
       answeredCount.value++; if (q._correct) correctCount.value++
       // Auto-mark mastery: 答对→掌握, 答错→不会
       q._mastery = res.data.isCorrect ? 'mastered' : 'dontknow'
+      if (viewMode.value === 'single') currentMastery.value = q._mastery
       await markMasteryForQuestion(q, q._mastery)
     }
   } catch {}
@@ -363,6 +364,7 @@ async function submitAnswer() {
       q._submitted = true; q._correct = res.data.isCorrect; q._selected = selectedAnswer.value; q._answer = res.data.answer
       answeredCount.value++; if (res.data.isCorrect) correctCount.value++
       q._mastery = res.data.isCorrect ? 'mastered' : 'dontknow'
+      currentMastery.value = q._mastery
       await markMasteryForQuestion(q, q._mastery)
     }
   } catch {}
