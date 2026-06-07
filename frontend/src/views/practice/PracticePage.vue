@@ -39,8 +39,8 @@
       </div>
       <!-- Floating mode switch -->
       <div class="pp-float-mode">
-        <button :class="{active:viewMode==='list'}" @click="viewMode='list'">列表</button>
-        <button :class="{active:viewMode==='single'}" @click="viewMode='single'">单题</button>
+        <button :class="{active:viewMode==='list'}" @click="viewMode='list'">☰ 列表</button>
+        <button :class="{active:viewMode==='single'}" @click="viewMode='single'">▦ 单题</button>
       </div>
       <div class="pp-scroll">
         <div v-if="viewMode === 'list'" class="pp-list-wrap">
