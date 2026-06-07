@@ -175,7 +175,7 @@
             </div>
             <div class="pps-nav-pager">
               <button :disabled="navPage===0" @click="navPage--">◀</button>
-              <input class="pps-nav-pinp" :value="navPage+1" @keydown.enter="jumpNavPage($event)" @blur="jumpNavPage($event)" />
+              <input class="pps-nav-pinp" :value="navPage+1" @keydown.stop @keydown.enter="jumpNavPage($event)" @blur="jumpNavPage($event)" />
               <span>/ {{ navTotalPages }}</span>
               <button :disabled="navPage>=navTotalPages-1" @click="navPage++">▶</button>
             </div>
@@ -658,20 +658,7 @@ onMounted(async () => {
   } catch (e) { ElMessage.error('加载题目失败') } finally { loading.value = false }
   loadMastery()
   window.addEventListener('keydown', onKeyDown)
-  // Watermark images in question content
-  addImageWatermarks()
-  new MutationObserver(addImageWatermarks).observe(document.body, { childList: true, subtree: true })
 })
-// Watermark wrapper for images in v-html content
-function addImageWatermarks() {
-  document.querySelectorAll('.pl-content img, .sl-q-content img, .q-content img, .pd-q-content img, .pd-q-content img').forEach((img: any) => {
-    if (img.parentElement?.classList?.contains('img-watermark-wrap')) return
-    const wrap = document.createElement('span')
-    wrap.className = 'img-watermark-wrap'
-    img.parentNode.insertBefore(wrap, img)
-    wrap.appendChild(img)
-  })
-}
 onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 </script>
 

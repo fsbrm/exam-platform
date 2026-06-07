@@ -168,9 +168,7 @@ onMounted(async()=>{
   const pres:any=await api.get('/papers?subjectId=1');if(pres.code===200){const paper=(pres.data||[]).find((p:any)=>p.id===Number(paperId));if(paper){paperInfo.year=paper.year;paperInfo.name=paper.name}}
   // Load mastery
   try{const mr:any=await api.get('/user/mastery');if(mr.code===200&&mr.data){for(const q of questions.value){if(mr.data[q.id])q._mastery=mr.data[q.id]}}}catch{}}catch(e){console.error(e)}finally{loading.value=false}
-  addImageWatermarks()
-  new MutationObserver(addImageWatermarks).observe(document.body,{childList:true,subtree:true})})
-function addImageWatermarks(){document.querySelectorAll('.pd-q-content img,.pl-content img,.sl-q-content img').forEach((img:any)=>{if(img.parentElement?.classList?.contains('img-watermark-wrap'))return;const wrap=document.createElement('span');wrap.className='img-watermark-wrap';img.parentNode.insertBefore(wrap,img);wrap.appendChild(img)})}
+})
 onUnmounted(()=>{window.removeEventListener('keydown',onKeyDown)})
 </script>
 
