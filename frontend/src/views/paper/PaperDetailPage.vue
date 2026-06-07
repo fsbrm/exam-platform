@@ -16,14 +16,18 @@
     </div>
 
     <div class="pd-body" v-if="questions.length > 0">
+      <button class="side-arrow side-arrow-left" @click="prevQuestion" :disabled="currentIndex===0" :style="{visibility:currentIndex===0?'hidden':'visible'}"><el-icon :size="28"><ArrowLeft /></el-icon></button>
       <nav class="pd-nav">
-        <div class="pd-nav-header">题号导航</div>
+        <div class="pd-nav-header">题号 · {{ questions.length }}题</div>
+        <button class="pd-nav-page-btn" :disabled="navPage===0" @click="navPage--"><el-icon :size="14"><ArrowUp /></el-icon></button>
         <div class="pd-nav-grid">
-          <div v-for="(q, idx) in questions" :key="q.id || q.questionNumber" class="pd-nav-num"
-            :class="{ active: currentIndex===idx, correct: q.userCorrect===true, wrong: q.userCorrect===false, done: q.userAnswer,
+          <div v-for="(q, idx) in pagedQuestions" :key="'pn'+q.id" class="pd-nav-num"
+            :class="{ active: currentIndex===navPage*PAGE_SIZE+idx, correct: q.userCorrect===true, wrong: q.userCorrect===false, done: q.userAnswer,
               'm-mastered': q._mastery==='mastered', 'm-unfamiliar': q._mastery==='unfamiliar', 'm-dontknow': q._mastery==='dontknow', 'm-careless': q._mastery==='careless' }"
-            @click="jumpTo(idx)">{{ q.questionNumber || q.question_number }}</div>
+            @click="jumpTo(navPage*PAGE_SIZE+idx)">{{ navPage*PAGE_SIZE+idx+1 }}</div>
         </div>
+        <button class="pd-nav-page-btn" :disabled="navPage>=totalPages-1" @click="navPage++"><el-icon :size="14"><ArrowDown /></el-icon></button>
+        <div class="pd-nav-page-info">{{ navPage+1 }}/{{ totalPages }}</div>
         <div class="pd-legend"><span><i class="pd-ld active"></i>当前</span><span><i class="pd-ld done"></i>已答</span><span><i class="pd-ld correct"></i>正确</span><span><i class="pd-ld wrong"></i>错误</span></div>
       </nav>
 
@@ -51,10 +55,10 @@
               <span class="pd-opt-icon err" v-if="showResult && selectedAnswer===opt.key && opt.key!==currentQuestion.answer">&#10007;</span>
             </div>
           </div>
-          <div v-if="isComprehensive" class="pd-result ok"><div class="pd-result-header">📝 参考答案</div><div v-html="currentQuestion.answer"></div><div v-if="currentQuestion.analysis" style="margin-top:12px"><strong>解析：</strong>{{ currentQuestion.analysis }}</div></div>
+          <div v-if="isComprehensive" class="pd-result ok"><div class="pd-result-header">📝 参考答案</div><div v-html="currentQuestion.answer"></div><div v-if="currentQuestion.analysis" style="margin-top:12px"><strong>解析：</strong><span v-html="currentQuestion.analysis"></span></div></div>
           <div v-if="showResult" class="pd-result" :class="{ok:lastCorrect,err:!lastCorrect}">
             <div class="pd-result-header">{{ lastCorrect?'✅ 回答正确':'❌ 回答错误' }}<span v-if="!lastCorrect">，正确答案：{{ currentQuestion.answer }}</span></div>
-            <div class="pd-result-analysis" v-if="currentQuestion.analysis"><strong>解析：</strong>{{ currentQuestion.analysis }}</div>
+            <div class="pd-result-analysis" v-if="currentQuestion.analysis"><strong>解析：</strong><span v-html="currentQuestion.analysis"></span></div>
           </div>
           <div class="pd-actions">
             <el-button v-if="!showResult && selectedAnswer && !isComprehensive" type="primary" size="large" @click="submitAnswer">提交答案</el-button>
@@ -67,7 +71,7 @@
         </div>
         <div v-else class="pd-empty">请从左侧题号开始答题</div>
       </main>
-
+      <button class="side-arrow side-arrow-right" @click="nextQuestion" :disabled="currentIndex>=questions.length-1" :style="{visibility:currentIndex>=questions.length-1?'hidden':'visible'}"><el-icon :size="28"><ArrowRight /></el-icon></button>
     </div>
 
     <div v-else-if="loading" class="pd-loading"><p>加载题目中...</p></div>
@@ -105,6 +109,13 @@ const keyboardOn = ref(false)
 const comboOn = ref(false)
 const autoSubmitOn = ref(false)
 
+// Nav pagination
+const navPage = ref(0)
+const PAGE_SIZE = 25
+const totalPages = computed(() => Math.ceil(questions.value.length / PAGE_SIZE))
+const pagedQuestions = computed(() => questions.value.slice(navPage.value * PAGE_SIZE, navPage.value * PAGE_SIZE + PAGE_SIZE))
+// Auto-sync nav to current question
+const jumpTo = (idx: number) => { currentIndex.value = idx; resetState(); navPage.value = Math.floor(idx / PAGE_SIZE) }
 // Combo
 const comboCount = ref(0)
 const showCombo = ref(false)
@@ -194,6 +205,13 @@ onUnmounted(()=>{window.removeEventListener('keydown',onKeyDown)})
 .pd-legend{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#9ca3af}
 .pd-ld{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:3px;vertical-align:middle}
 .pd-ld.active{background:#4f7cff}.pd-ld.done{background:#dbeafe}.pd-ld.correct{background:#c8e6c9}.pd-ld.wrong{background:#ffd6d6}
+.pd-nav-page-btn{width:100%;padding:4px 0;border:none;background:#f9fafb;cursor:pointer;color:#6b7280;border-radius:6px;display:flex;align-items:center;justify-content:center;margin:6px 0;transition:all .15s}
+.pd-nav-page-btn:hover:not(:disabled){background:#eef2ff;color:#4f7cff}.pd-nav-page-btn:disabled{opacity:.3;cursor:default}
+.pd-nav-page-info{text-align:center;font-size:10px;color:#9ca3af;margin-bottom:4px}
+.side-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;border:1px solid #e5e7eb;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#4b5563;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:all .15s}
+.side-arrow:hover:not(:disabled){background:#4f7cff;color:white;border-color:#4f7cff;box-shadow:0 4px 12px rgba(79,124,255,.3)}
+.side-arrow:disabled{opacity:.15;cursor:default}
+.side-arrow-left{left:80px}.side-arrow-right{right:80px}
 .pd-loading,.pd-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 0}
 .pd-empty{text-align:center;padding:80px 0;color:#9ca3af}
 .ph-settings-wrap{position:relative}.ph-settings-btn{background:none;border:none;cursor:pointer;padding:6px 8px;border-radius:6px;color:#9ca3af;display:flex;align-items:center}.ph-settings-btn:hover{background:#f0f4ff;color:#4f7cff}
