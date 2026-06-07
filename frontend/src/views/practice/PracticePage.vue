@@ -234,9 +234,9 @@ function showFeedback(isCorrect: boolean) {
     ? ['太棒了！✨', '真厉害！🔥', '稳准狠！💯']
     : ['又错了... 💔', '再想想！🤔', '差一点！😭']
   const username = userStore.user?.nickname || userStore.user?.username || '大佬'
-  const rareBonus = isCorrect && Math.random() < 0.4 ? "Let's gou ! ! ! 🚀" : null
-  const godBonus = isCorrect && Math.random() < 0.3 ? '都是同龄人，我原本没想降维打击！！！ 👽' : null
-  const nameBonus = isCorrect && Math.random() < 0.1 ? `流水的天才，铁打的 ${username} ！ 👑` : null
+  const rareBonus = isCorrect && Math.random() < 0.5 ? "Let's gou ! ! ! 🚀" : null
+  const godBonus = isCorrect && Math.random() < 0.4 ? '都是同龄人，我原本没想降维打击！！！ 👽' : null
+  const nameBonus = isCorrect && Math.random() < 0.2 ? `流水的天才，铁打的 ${username} ！ 👑` : null
   const count = 1 + (Math.random() < 0.6 ? Math.floor(Math.random() * 2) + 1 : 0) + (rareBonus ? 1 : 0) + (godBonus ? 1 : 0) + (nameBonus ? 1 : 0)
   let allTexts = [main, ...extras].slice(0, count)
   if (rareBonus) allTexts.splice(1, 0, rareBonus)
