@@ -256,7 +256,7 @@ function onKeyDown(e: KeyboardEvent) {
     const opts = parsedOptions.value
     if (idx < opts.length) selectOption(opts[idx].key)
   }
-  if (e.key === ' ' && !showResult.value && canSubmit.value) { e.preventDefault(); submitAnswer() }
+  if ((e.key === ' ' || e.key === 'Enter') && !showResult.value && canSubmit.value) { e.preventDefault(); submitAnswer() }
   if (e.key === 'ArrowLeft' && currentIndex.value > 0) prevQuestion()
   if (e.key === 'ArrowRight' && currentIndex.value < questions.value.length - 1) nextQuestion()
   if (e.key === 'c' || e.key === 'C') toggleFavorite()
