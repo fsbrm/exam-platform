@@ -83,8 +83,6 @@
     <main class="app-main">
       <router-view />
     </main>
-    <!-- watermark -->
-    <div class="global-watermark">fsbrm</div>
   </div>
 </template>
 
@@ -239,12 +237,12 @@ a { text-decoration: none; }
 }
 </style>
 <style>
-.global-watermark { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }
-.global-watermark::before {
-  content: 'fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm  fsbrm';
-  position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-  font-size: 18px; color: rgba(0,0,0,0.03); font-weight: 700;
-  white-space: pre-wrap; word-break: break-all; line-height: 120px;
-  transform: rotate(-20deg); letter-spacing: 40px;
+.img-watermark-wrap { position: relative; display: inline-block; max-width: 100%; }
+.img-watermark-wrap img { display: block; max-width: 100%; }
+.img-watermark-wrap::after {
+  content: 'fsbrm'; position: absolute; bottom: 6px; right: 6px;
+  color: rgba(255,255,255,0.55); font-size: 10px; font-weight: 700;
+  background: rgba(0,0,0,0.2); padding: 1px 5px; border-radius: 3px;
+  pointer-events: none;
 }
 </style>

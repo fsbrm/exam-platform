@@ -167,7 +167,9 @@ onMounted(async()=>{
   if(res.code===200){const list=res.data||[];questions.value=list.map((q:any)=>({...q,questionNumber:q.question_number||q.questionNumber,userAnswer:null,userCorrect:null,_mastery:''}))}
   const pres:any=await api.get('/papers?subjectId=1');if(pres.code===200){const paper=(pres.data||[]).find((p:any)=>p.id===Number(paperId));if(paper){paperInfo.year=paper.year;paperInfo.name=paper.name}}
   // Load mastery
-  try{const mr:any=await api.get('/user/mastery');if(mr.code===200&&mr.data){for(const q of questions.value){if(mr.data[q.id])q._mastery=mr.data[q.id]}}}catch{}}catch(e){console.error(e)}finally{loading.value=false}})
+  try{const mr:any=await api.get('/user/mastery');if(mr.code===200&&mr.data){for(const q of questions.value){if(mr.data[q.id])q._mastery=mr.data[q.id]}}}catch{}}catch(e){console.error(e)}finally{loading.value=false}
+  setTimeout(addImageWatermarks, 500)})
+function addImageWatermarks(){document.querySelectorAll('.pd-q-content img').forEach((img:any)=>{if(img.parentElement?.classList.contains('img-watermark-wrap'))return;const wrap=document.createElement('span');wrap.className='img-watermark-wrap';img.parentNode.insertBefore(wrap,img);wrap.appendChild(img)})}
 onUnmounted(()=>{window.removeEventListener('keydown',onKeyDown)})
 </script>
 

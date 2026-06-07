@@ -658,7 +658,19 @@ onMounted(async () => {
   } catch (e) { ElMessage.error('加载题目失败') } finally { loading.value = false }
   loadMastery()
   window.addEventListener('keydown', onKeyDown)
+  // Watermark images in question content
+  setTimeout(addImageWatermarks, 500)
 })
+// Watermark wrapper for images in v-html content
+function addImageWatermarks() {
+  document.querySelectorAll('.pl-content img, .sl-q-content img, .q-content img, .pd-q-content img').forEach((img: any) => {
+    if (img.parentElement?.classList.contains('img-watermark-wrap')) return
+    const wrap = document.createElement('span')
+    wrap.className = 'img-watermark-wrap'
+    img.parentNode.insertBefore(wrap, img)
+    wrap.appendChild(img)
+  })
+}
 onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 </script>
 
