@@ -54,12 +54,21 @@
           <el-button type="primary" size="large" round @click="$router.push('/login')">立即登录</el-button>
         </section>
 
-        <section class="section-card" style="margin-top:16px">
-          <h3>📚 考试科目</h3>
-          <div class="subj-cards">
-            <div v-for="s in subjects" :key="s.name" class="sc-card" :style="{'--sc':s.color}">
-              <div class="sc-top"><span class="sc-ico">{{ s.icon }}</span><span class="sc-name">{{ s.name }}</span></div>
-              <div class="sc-info"><span>{{ s.kpCount }}知识点</span><span>~{{ s.qCount }}题</span></div>
+        <section style="margin-top:16px">
+          <div class="subj-grid">
+            <div v-for="(s,i) in subjects" :key="s.name" class="sg-card" :style="{'--sc':s.color}" @click="$router.push('/practice?subjectId='+(i+1))">
+              <div class="sg-top">
+                <span class="sg-icon" :style="{background:s.color}">{{ s.icon }}</span>
+                <div class="sg-info">
+                  <div class="sg-name">{{ s.name }}</div>
+                  <div class="sg-meta">{{ s.kpCount }} 知识点 · ~{{ s.qCount }} 题</div>
+                </div>
+              </div>
+              <div class="sg-bar"><div class="sg-fill" :style="{width:((subjectBars[i]?.mastery||0))+'%',background:s.color}"></div></div>
+              <div class="sg-foot">
+                <span v-if="subjectBars[i]">已做 {{ subjectBars[i].done||0 }} 题 · 掌握 {{ subjectBars[i].mastery||0 }}%</span>
+                <span v-else>点击开始刷题 →</span>
+              </div>
             </div>
           </div>
         </section>
@@ -255,11 +264,15 @@ watch(lbTab, loadLeaderboard)
 .guest-icon{font-size:44px;margin-bottom:10px}
 .guest-box p{font-size:15px;color:#374151;margin-bottom:2px}
 .gsub{font-size:12px;color:#9ca3af;margin-bottom:18px!important}
-.subj-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.sc-card{background:#f9fafb;border-radius:10px;padding:14px;border-left:3px solid var(--sc)}
-.sc-top{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-.sc-ico{font-size:18px}.sc-name{font-size:13px;font-weight:600;color:#1f2937}
-.sc-info{display:flex;gap:8px;font-size:10px;color:#9ca3af}
+.subj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.sg-card{background:white;border-radius:14px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer;transition:all .2s}
+.sg-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.sg-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.sg-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:white;flex-shrink:0}
+.sg-name{font-size:15px;font-weight:700;color:#1f2937}.sg-meta{font-size:11px;color:#9ca3af;margin-top:2px}
+.sg-bar{height:5px;background:#f0f0f0;border-radius:3px;overflow:hidden;margin-bottom:8px}
+.sg-fill{height:100%;border-radius:3px;transition:width .6s}
+.sg-foot{font-size:11px;color:#9ca3af}
 .side-card{background:white;border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .side-card h4{font-size:12px;font-weight:600;color:#6b7280;margin-bottom:8px}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
@@ -297,5 +310,5 @@ watch(lbTab, loadLeaderboard)
 .lb-name{flex:1;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lb-val{color:#6b7280;font-weight:600;flex-shrink:0}
 .lb-empty{text-align:center;padding:16px;color:#9ca3af;font-size:12px}
 .cal-footer{text-align:center;font-size:11px;color:#9ca3af;margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0}
-@media(max-width:768px){.main-layout{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.subj-cards{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:22px}.hero{padding:16px}.home-page{padding:0 12px}}
+@media(max-width:768px){.main-layout{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.subj-grid{grid-template-columns:1fr}.hero h1{font-size:22px}.hero{padding:16px}.home-page{padding:0 12px}}
 </style>
