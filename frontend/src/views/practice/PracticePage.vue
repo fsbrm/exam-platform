@@ -227,12 +227,21 @@ const feedbackEnabled = () => localStorage.getItem('practice_feedback') === 'tru
 // Floating feedback animation
 function showFeedback(isCorrect: boolean) {
   if (!feedbackEnabled()) return
-  const el = document.createElement('div')
-  el.className = 'feedback-float ' + (isCorrect ? 'fb-correct' : 'fb-wrong')
-  el.textContent = isCorrect ? 'Niceeee~~~ 🎉' : '我真受不了嘞！ 😤'
-  document.body.appendChild(el)
-  // Auto-remove after animation ends
-  setTimeout(() => el.remove(), 3000)
+  const texts = isCorrect
+    ? ['Niceeee~~~ 🎉', '太棒了！✨', '真厉害！🔥', '稳准狠！💯']
+    : ['我真受不了嘞！ 😤', '又错了... 💔', '再想想！🤔', '差一点！😭']
+  const count = 1 + Math.floor(Math.random() * 3) // 1-3 texts
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div')
+    el.className = 'feedback-float ' + (isCorrect ? 'fb-correct' : 'fb-wrong')
+    el.textContent = texts[Math.floor(Math.random() * texts.length)]
+    // Random speed: 4-7 seconds, random delay
+    el.style.animationDuration = (4 + Math.random() * 3) + 's'
+    el.style.top = (25 + Math.random() * 35) + '%'
+    el.style.animationDelay = (i * 0.3) + 's'
+    document.body.appendChild(el)
+    setTimeout(() => el.remove(), 8000)
+  }
 }
 const questionVideos = ref([])
 const knowledgeVideos = ref([])
@@ -704,17 +713,18 @@ onMounted(async () => {
 <!-- unscoped: feedback animation -->
 <style>
 .feedback-float {
-  position: fixed; z-index: 9999; top: 40%;
-  font-size: 36px; font-weight: 900; pointer-events: none;
-  animation: fb-slide 3s ease-out forwards;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  position: fixed; z-index: 9999; top: 35%;
+  font-size: 32px; font-weight: 900; pointer-events: none;
+  animation: fb-slide 5s linear forwards;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  white-space: nowrap;
 }
-.fb-correct { color: #10b981; left: -100px; }
-.fb-wrong { color: #ef4444; left: -100px; }
+.fb-correct { color: #10b981; left: -200px; }
+.fb-wrong { color: #ef4444; left: -200px; }
 @keyframes fb-slide {
   0%   { transform: translateX(0); opacity: 0; }
-  10%  { opacity: 1; }
-  50%  { opacity: 1; transform: translateX(calc(100vw + 100px)); }
-  100% { opacity: 0; transform: translateX(calc(100vw + 200px)); }
+  5%   { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(calc(100vw + 300px)); }
 }
 </style>
