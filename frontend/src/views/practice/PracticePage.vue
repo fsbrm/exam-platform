@@ -343,7 +343,12 @@ function goNextOrFinish() {
   if (currentIndex.value < questions.value.length - 1) { currentIndex.value++; resetState() }
     else { ElMessage.success('练习完成！'); router.back() }
 }
-function resetState() { selectedAnswer.value = ''; showResult.value = false; singleHintLevel.value = 0 }
+function resetState() {
+  selectedAnswer.value = ''; showResult.value = false; singleHintLevel.value = 0
+  // Sync mastery for the new current question
+  const q = questions.value[currentIndex.value]
+  if (q) currentMastery.value = q._mastery || ''
+}
 function goBack() { router.back() }
 function openAiChat() { router.push('/ai?question=' + encodeURIComponent(currentQuestion.value?.content || '') + '&id=' + currentQuestion.value?.id) }
 function openListAiChat(q) { router.push('/ai?question=' + encodeURIComponent(q.content || '') + '&id=' + q.id) }
