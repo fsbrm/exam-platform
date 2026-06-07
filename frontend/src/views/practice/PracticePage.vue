@@ -20,23 +20,23 @@
             <el-icon :size="14"><List /></el-icon> {{ navOpen ? '收起' : '题号' }}
           </button>
         </div>
-        <div v-if="viewMode === 'list'" class="ppfb-row2">
-          <el-select v-model="listFilterSubjectId" placeholder="科目" clearable size="small" style="width:120px" @change="listFilterChapterId = null">
+        <!-- List filters as floating card -->
+        <div v-if="viewMode === 'list'" class="pp-float-filters">
+          <div class="pff-title">筛选</div>
+          <el-select v-model="listFilterSubjectId" placeholder="科目" clearable size="small" @change="listFilterChapterId = null">
             <el-option v-for="s in SUBJECTS" :key="s.id" :label="s.name" :value="s.id" />
           </el-select>
-          <el-select v-if="listFilterSubjectId" v-model="listFilterChapterId" placeholder="章节" clearable size="small" style="width:130px">
+          <el-select v-if="listFilterSubjectId" v-model="listFilterChapterId" placeholder="章节" clearable size="small">
             <el-option v-for="ch in availableChapters" :key="ch.id" :label="ch.name" :value="ch.id" />
           </el-select>
-          <el-select v-model="listFilterYear" placeholder="年份" clearable size="small" style="width:100px">
+          <el-select v-model="listFilterYear" placeholder="年份" clearable size="small">
             <el-option v-for="y in availableYears" :key="y" :label="y+''" :value="y" />
           </el-select>
-          <el-select v-model="listFilterType" size="small" style="width:110px">
-            <el-option label="全部" value="ALL" />
-            <el-option label="选择题" value="CHOICE" />
-            <el-option label="大题" value="BIG" />
+          <el-select v-model="listFilterType" size="small">
+            <el-option label="全部" value="ALL" /><el-option label="选择题" value="CHOICE" /><el-option label="大题" value="BIG" />
           </el-select>
-          <el-input v-model="listSearchText" placeholder="搜索..." size="small" clearable style="width:140px" />
-          <el-select v-model="listQuickJump" placeholder="跳转" size="small" filterable style="width:160px" @change="jumpToListQuestion">
+          <el-input v-model="listSearchText" placeholder="搜索..." size="small" clearable />
+          <el-select v-model="listQuickJump" placeholder="跳转题目" size="small" filterable @change="jumpToListQuestion">
             <el-option v-for="(q, idx) in filteredListQuestions" :key="q.id" :label="(q.year||'')+'年'+(q.questionNumber||idx+1)+'题'" :value="idx" />
           </el-select>
         </div>
@@ -552,10 +552,12 @@ onMounted(async () => {
 .ppfb-count { font-size: 13px; color: #9ca3af; margin-left: 8px; }
 .ppfb-nav-btn { padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; color: #4f7cff; white-space: nowrap; }
 .ppfb-nav-btn:hover { background: #f0f4ff; }
-.ppfb-row2 { display: flex; align-items: center; gap: 8px; padding: 6px 0 8px; background: #fafbfc; flex-wrap: wrap; max-width: 1100px; margin: 0 auto; }
-.pp-scroll { padding-top: 110px; background: #f5f7fa; min-height: 100vh; }
+.ppfb-row2 { display: none; }
+.pp-float-filters { position: fixed; right: 20px; top: 140px; z-index: 90; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-radius: 12px; padding: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 8px; width: 170px; }
+.pff-title { font-size: 12px; font-weight: 600; color: #9ca3af; margin-bottom: 2px; }
+.pp-scroll { padding-top: 100px; background: #f5f7fa; min-height: 100vh; }
 
-.pp-list-wrap { max-width: 1000px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.pp-list-wrap { max-width: 900px; margin: 0 auto; padding: 20px 20px 20px 20px; display: flex; flex-direction: column; gap: 16px; }
 .pp-empty { text-align: center; padding: 60px 0; color: #9ca3af; }
 .pp-single-wrap { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-start; min-height: calc(100vh - 166px); position: relative; }
 .side-arrow { position: fixed; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e5e7eb; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #4b5563; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.15s; }
