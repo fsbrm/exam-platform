@@ -567,7 +567,7 @@ onMounted(async () => {
 .side-arrow-left { left: 80px; }
 .side-arrow-right { right: 80px; }
 .pps-main { flex: 1; overflow-y: auto; padding: 20px 40px; }
-.pps-nav { width: 200px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; position: sticky; top: 100px; align-self: flex-start; max-height: calc(100vh - 140px); }
+.pps-nav { width: 200px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; position: sticky; top: 120px; align-self: flex-start; max-height: calc(100vh - 160px); }
 .pps-nav-title { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
 .pps-nav-close { background: none; border: none; cursor: pointer; font-size: 16px; color: #9ca3af; padding: 2px 6px; border-radius: 4px; }
 .pps-nav-close:hover { background: #f3f4f6; color: #374151; }
