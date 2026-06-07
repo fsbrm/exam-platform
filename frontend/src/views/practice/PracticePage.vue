@@ -231,8 +231,10 @@ function showFeedback(isCorrect: boolean) {
   const extras = isCorrect
     ? ['太棒了！✨', '真厉害！🔥', '稳准狠！💯']
     : ['又错了... 💔', '再想想！🤔', '差一点！😭']
-  const count = 1 + (Math.random() < 0.6 ? Math.floor(Math.random() * 3) : 0) // always main + maybe extras
-  const allTexts = [main, ...extras].slice(0, count)
+  const rareBonus = isCorrect && Math.random() < 0.2 ? "Let's gou ! ! ! 🚀" : null
+  const count = 1 + (Math.random() < 0.6 ? Math.floor(Math.random() * 2) + 1 : 0) + (rareBonus ? 1 : 0)
+  let allTexts = [main, ...extras].slice(0, count)
+  if (rareBonus) allTexts.splice(1, 0, rareBonus) // insert after main
   for (let i = 0; i < allTexts.length; i++) {
     const el = document.createElement('div')
     el.className = 'feedback-float ' + (isCorrect ? 'fb-correct' : 'fb-wrong')
