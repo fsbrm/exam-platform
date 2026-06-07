@@ -29,10 +29,13 @@
             <el-option v-for="(q, idx) in filteredListQuestions" :key="q.id" :label="(q.year||'')+'年'+(q.questionNumber||idx+1)+'题'" :value="idx" />
           </el-select>
         </div>
-      <!-- Floating combo display -->
+      <!-- Combo panel (left side, below mode switch) -->
+      <div v-if="comboEnabled()" class="pp-float-combo-panel">
+        <div class="fcp-row">当前 <span class="fcp-val">{{ comboCount }}</span> 连</div>
+        <div class="fcp-row fcp-best">最佳 <span class="fcp-val">{{ bestCombo }}</span> 连</div>
+      </div>
+      <!-- Floating combo popup -->
       <div v-if="comboEnabled() && showCombo" class="pp-float-combo">{{ comboTxt }}</div>
-      <!-- Combo counter -->
-      <div v-if="comboEnabled() && comboCount > 1" class="pp-combo-badge">{{ comboCount }}连</div>
       <!-- Subtle keyboard hint -->
       <div v-if="keyboardEnabled && !kbHintClosed" class="pp-kb-hint">
         <span>1-4 选项</span><span>空格 提交</span><span>←→ 切题</span><span>Q/W/E/R 掌握</span><span>C 收藏</span><span>Z 重做</span>
@@ -243,6 +246,7 @@ setInterval(() => {
   if (v !== keyboardEnabled.value) { keyboardEnabled.value = v; if (v) kbHintClosed.value = false }
 }, 800)
 const comboCount = ref(0)
+const bestCombo = ref(parseInt(localStorage.getItem('practice_best_combo') || '0'))
 const showCombo = ref(false)
 const comboTxt = ref('')
 
@@ -272,8 +276,8 @@ function triggerCombo(isCorrect: boolean) {
   if (!comboEnabled()) return
   if (isCorrect) {
     comboCount.value++
+    if (comboCount.value > bestCombo.value) { bestCombo.value = comboCount.value; localStorage.setItem('practice_best_combo', String(bestCombo.value)) }
     if (comboCount.value === 3) flashCombo('春风若有怜花意，可否许我再少年 🌸')
-    else if (comboCount.value === 5) flashCombo('须知少日拏云志，曾许人间第一流 ⛰️')
     else if (comboCount.value === 8) flashCombo('仰天大笑出门去，我辈岂是蓬蒿人 🎋')
     else if (comboCount.value === 12) flashCombo('长风破浪会有时，直挂云帆济沧海 ⛵')
     else if (comboCount.value === 18) flashCombo('大鹏一日同风起，扶摇直上九万里 🦅')
@@ -668,11 +672,15 @@ onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 .pp-kb-hint span { opacity: 0.6; }
 .pp-kb-close { background: none; border: none; cursor: pointer; color: #c4c4c4; font-size: 10px; padding: 0 2px; margin-left: 4px; }
 .pp-kb-close:hover { color: #6b7280; }
-.pp-combo-badge { position: fixed; top: 76px; left: 50%; transform: translateX(-50%); z-index: 80; padding: 3px 10px; border-radius: 10px; background: rgba(79,124,255,0.08); font-size: 12px; color: #4f7cff; font-weight: 600; }
 .pp-float-combo { position: fixed; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 200; font-size: 28px; font-weight: 700; color: #4f7cff; text-shadow: 0 2px 16px rgba(79,124,255,0.25); pointer-events: none; animation: combo-pop 0.6s ease-out; white-space: nowrap; font-family: 'KaiTi','STKaiti','楷体',serif; }
 @keyframes combo-pop { 0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 .pp-float-nav-btn:hover { color: #4f7cff; }
 .pp-float-mode { position: fixed; left: 40px; top: 76px; z-index: 90; display: flex; flex-direction: column; gap: 6px; }
+.pp-float-combo-panel { position: fixed; left: 40px; top: 154px; z-index: 90; background: rgba(255,255,255,.8); backdrop-filter: blur(6px); border-radius: 10px; padding: 8px 14px; font-size: 12px; color: #6b7280; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.fcp-row { display: flex; align-items: center; gap: 4px; }
+.fcp-val { font-weight: 700; color: #4f7cff; font-size: 16px; }
+.fcp-best { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+.fcp-best .fcp-val { font-size: 13px; color: #f59e0b; }
 .pp-float-mode button { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; text-align: left; }
 .pp-float-mode button.active { color: #374151; font-weight: 500; }
 .pp-float-mode button:hover { color: #4b5563; }
