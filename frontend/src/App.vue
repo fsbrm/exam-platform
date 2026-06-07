@@ -90,6 +90,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
+import { Setting } from '@element-plus/icons-vue'
 
 const userStore = useUserStore()
 const router = useRouter()
