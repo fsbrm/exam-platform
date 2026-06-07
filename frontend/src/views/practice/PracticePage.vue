@@ -659,12 +659,13 @@ onMounted(async () => {
   loadMastery()
   window.addEventListener('keydown', onKeyDown)
   // Watermark images in question content
-  setTimeout(addImageWatermarks, 500)
+  addImageWatermarks()
+  new MutationObserver(addImageWatermarks).observe(document.body, { childList: true, subtree: true })
 })
 // Watermark wrapper for images in v-html content
 function addImageWatermarks() {
-  document.querySelectorAll('.pl-content img, .sl-q-content img, .q-content img, .pd-q-content img').forEach((img: any) => {
-    if (img.parentElement?.classList.contains('img-watermark-wrap')) return
+  document.querySelectorAll('.pl-content img, .sl-q-content img, .q-content img, .pd-q-content img, .pd-q-content img').forEach((img: any) => {
+    if (img.parentElement?.classList?.contains('img-watermark-wrap')) return
     const wrap = document.createElement('span')
     wrap.className = 'img-watermark-wrap'
     img.parentNode.insertBefore(wrap, img)

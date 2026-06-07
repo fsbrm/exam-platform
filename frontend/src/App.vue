@@ -240,9 +240,9 @@ a { text-decoration: none; }
 .img-watermark-wrap { position: relative; display: inline-block; max-width: 100%; }
 .img-watermark-wrap img { display: block; max-width: 100%; }
 .img-watermark-wrap::after {
-  content: 'fsbrm'; position: absolute; bottom: 6px; right: 6px;
-  color: rgba(255,255,255,0.55); font-size: 10px; font-weight: 700;
-  background: rgba(0,0,0,0.2); padding: 1px 5px; border-radius: 3px;
-  pointer-events: none;
+  content: 'fsbrm'; position: absolute; bottom: 8px; right: 8px;
+  color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 700;
+  background: rgba(0,0,0,0.35); padding: 2px 6px; border-radius: 4px;
+  pointer-events: none; z-index: 5;
 }
 </style>
