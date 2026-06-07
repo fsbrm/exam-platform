@@ -676,7 +676,7 @@ onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 @keyframes combo-pop { 0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 .pp-float-nav-btn:hover { color: #4f7cff; }
 .pp-float-mode { position: fixed; left: 40px; top: 76px; z-index: 90; display: flex; flex-direction: column; gap: 6px; }
-.pp-float-combo-panel { position: fixed; left: 40px; top: 154px; z-index: 90; background: rgba(255,255,255,.8); backdrop-filter: blur(6px); border-radius: 10px; padding: 8px 14px; font-size: 12px; color: #6b7280; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.pp-float-combo-panel { position: fixed; left: 40px; top: 174px; z-index: 90; background: rgba(255,255,255,.8); backdrop-filter: blur(6px); border-radius: 10px; padding: 8px 14px; font-size: 12px; color: #6b7280; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
 .fcp-row { display: flex; align-items: center; gap: 4px; }
 .fcp-val { font-weight: 700; color: #4f7cff; font-size: 16px; }
 .fcp-best { font-size: 11px; color: #9ca3af; margin-top: 2px; }
