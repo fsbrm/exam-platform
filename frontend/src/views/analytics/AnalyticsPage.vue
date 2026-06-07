@@ -39,6 +39,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
+import * as echarts from 'echarts'
 import api from '@/api'
 
 const loading = ref(true)
@@ -83,7 +84,6 @@ onMounted(async () => {
 
 async function renderHeatmap() {
   if (!heatmapRef.value) return
-  const { default: echarts } = await import('echarts')
   const chart = echarts.init(heatmapRef.value)
 
   const dates = Object.keys(heatmapData.value)
@@ -153,15 +153,14 @@ async function renderHeatmap() {
 
 async function renderSubjectChart() {
   if (!subjectRef.value) return
-  const { default: echarts } = await import('echarts')
   const chart = echarts.init(subjectRef.value)
 
   const names = subjectStats.value.map((s: any) => s.name)
   const accuracies = subjectStats.value.map((s: any) => {
-    if (s.total > 0) return Math.round((s.correct / s.total) * 100)
+    if (s.doneCount > 0) return Math.round((s.correctCount / s.doneCount) * 100)
     return 0
   })
-  const totals = subjectStats.value.map((s: any) => s.total)
+  const totals = subjectStats.value.map((s: any) => s.doneCount)
 
   chart.setOption({
     tooltip: { trigger: 'axis' },
@@ -177,7 +176,6 @@ async function renderSubjectChart() {
 
 async function renderTrendChart() {
   if (!trendRef.value) return
-  const { default: echarts } = await import('echarts')
   const chart = echarts.init(trendRef.value)
 
   if (weeklyStats.value.length === 0) {
@@ -193,7 +191,7 @@ async function renderTrendChart() {
     const str = typeof d === 'string' ? d : d.toString()
     return str.length >= 10 ? str.substring(5, 10) : str
   })
-  const counts = weeklyStats.value.map((s: any) => s.count || 0)
+  const counts = weeklyStats.value.map((s: any) => s.total || 0)
   const corrects = weeklyStats.value.map((s: any) => s.correct || 0)
 
   chart.setOption({
