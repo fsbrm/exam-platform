@@ -218,6 +218,17 @@ onUnmounted(()=>{window.removeEventListener('keydown',onKeyDown)})
 .ph-settings-drop{position:absolute;top:40px;right:0;background:white;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:14px 16px;z-index:200;width:180px}
 .psd-item{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#374151;margin-bottom:10px;gap:12px;white-space:nowrap}
 .mastery-btns{display:flex;gap:4px}
+@media (max-width: 768px) {
+  .pd-body { flex-direction: column; }
+  .pd-nav { width: 100%; max-height: 180px; }
+  .pd-main { padding: 12px; }
+  .pd-q-content { font-size: 14px; padding: 16px; }
+  .side-arrow { width: 32px; height: 32px; }
+  .side-arrow-left { left: 4px; }
+  .side-arrow-right { right: 4px; }
+  .pd-topbar { flex-wrap: wrap; gap: 8px; padding: 8px 12px; }
+  .mastery-btns { flex-wrap: wrap; }
+}
 </style>
 
 <!-- unscoped for feedback animations -->

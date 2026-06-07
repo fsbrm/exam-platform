@@ -810,6 +810,26 @@ onUnmounted(() => { window.removeEventListener('keydown', onKeyDown) })
 .loading-box { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
 .loading-box p { margin-top: 16px; color: #9ca3af; }
 .empty-box { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 16px; }
+@media (max-width: 768px) {
+  .pp-scroll { padding-top: 52px; }
+  .pp-float-mode { left: 8px; top: 68px; }
+  .pp-float-mode button { padding: 4px 8px; font-size: 11px; }
+  .pp-float-nav-btn { right: 8px; top: 68px; font-size: 11px; padding: 4px 8px; }
+  .pp-float-combo-panel { left: 8px; top: 140px; font-size: 10px; padding: 4px 8px; }
+  .pp-float-filters { right: 4px; top: 72px; width: 140px; padding: 8px; gap: 4px; }
+  .pp-float-filters .el-select,.pp-float-filters .el-input { width: 100% !important; }
+  .pp-list-wrap { padding: 8px; max-width: 100%; }
+  .pp-single-wrap { flex-direction: column; min-height: auto; }
+  .pps-nav { width: 100%; max-height: 200px; position: static; border-left: none; border-top: 1px solid #e5e7eb; }
+  .pps-main { padding: 8px 16px; }
+  .side-arrow { width: 32px; height: 32px; }
+  .side-arrow-left { left: 4px; }
+  .side-arrow-right { right: 4px; }
+  .sl-q-card { max-width: 100%; }
+  .pd-actions { flex-wrap: wrap; gap: 8px; }
+  .pd-nav-btns { gap: 6px; }
+  .pp-kb-hint { font-size: 8px; gap: 4px; padding: 2px 8px; bottom: 8px; }
+}
 </style>
 
 <!-- unscoped: feedback animation -->

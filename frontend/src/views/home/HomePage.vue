@@ -283,5 +283,5 @@ onMounted(async () => {
 .sl-item{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:#374151;transition:background .15s}
 .sl-item:hover{background:#f0f4ff;color:#4f7cff}
 .sl-item span{font-size:15px}
-@media(max-width:768px){.main-layout{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.subj-cards{grid-template-columns:repeat(2,1fr)}.sc-num{font-size:28px}}
+@media(max-width:768px){.main-layout{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.subj-cards{grid-template-columns:repeat(2,1fr)}.sc-num{font-size:28px}.stats-arrow{display:none}.hero h1{font-size:22px}.hero{padding:16px}.home-page{padding:0 12px}}
 </style>

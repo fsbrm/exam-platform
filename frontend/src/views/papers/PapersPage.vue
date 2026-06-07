@@ -509,4 +509,14 @@ watch(() => route.path, async (newPath) => {
 .done-tag { font-size: 11px; padding: 1px 6px; border-radius: 4px; }
 .done-ok { color: #52c41a; background: #f6ffed; }
 .done-err { color: #ff4d4f; background: #fff2f0; }
+@media (max-width: 768px) {
+  .matrix-layout { flex-direction: column; }
+  .kp-panel { width: 100%; max-height: 40vh; }
+  .grid-panel { width: 100%; overflow-x: auto; }
+  .grid-scroll { padding: 4px; }
+  .grid-header { position: static; }
+  .gr-year { width: 36px; font-size: 10px; }
+  .gr-cell { width: 10px; height: 10px; }
+  .gh-num { width: 10px; font-size: 7px; }
+}
 </style>

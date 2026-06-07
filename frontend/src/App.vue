@@ -214,4 +214,17 @@ a { text-decoration: none; }
 .ph-settings-btn:hover { background: #f0f4ff; color: #4f7cff; }
 .ph-settings-drop { position: absolute; top: 40px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 14px 16px; z-index: 200; width: 180px; }
 .psd-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #374151; margin-bottom: 10px; gap: 12px; white-space: nowrap; }
+@media (max-width: 768px) {
+  .header-inner { padding: 0 12px; gap: 4px; }
+  .logo-text { display: none; }
+  .logo { margin-right: 4px; }
+  .nav-item { padding: 6px 8px; font-size: 11px; gap: 2px; }
+  .nav-icon { font-size: 13px; }
+  .user-area { gap: 4px; }
+  .user-btn { font-size: 11px; }
+  .ph-title { font-size: 14px; }
+  .ph-back { font-size: 11px; padding: 4px 8px; }
+  .ph-link { font-size: 11px; padding: 4px 8px; }
+  .ph-settings-drop { right: -60px; }
+}
 </style>
