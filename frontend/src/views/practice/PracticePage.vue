@@ -547,10 +547,10 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.pp-fixed-bar { position: fixed; top: 56px; left: 0; right: 0; z-index: 99; background: white; border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.04); padding: 0 24px; }
-.ppfb-row1 { display: flex; align-items: center; gap: 12px; padding: 8px 0; max-width: 1100px; margin: 0 auto; }
-.ppfb-count { font-size: 13px; color: #9ca3af; margin-left: auto; }
-.ppfb-nav-btn { padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; color: #4f7cff; }
+.pp-fixed-bar { position: fixed; top: 56px; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.06); padding: 0 24px; }
+.ppfb-row1 { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; max-width: 1100px; margin: 0 auto; }
+.ppfb-count { font-size: 13px; color: #9ca3af; margin-left: 8px; }
+.ppfb-nav-btn { padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; color: #4f7cff; white-space: nowrap; }
 .ppfb-nav-btn:hover { background: #f0f4ff; }
 .ppfb-row2 { display: flex; align-items: center; gap: 8px; padding: 6px 0 8px; background: #fafbfc; flex-wrap: wrap; max-width: 1100px; margin: 0 auto; }
 .pp-scroll { padding-top: 110px; background: #f5f7fa; min-height: 100vh; }
