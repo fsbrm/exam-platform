@@ -545,18 +545,18 @@ onMounted(async () => {
 .pp-fixed-bar { position: fixed; top: 56px; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.06); padding: 0 24px; }
 .ppfb-row1 { display: flex; align-items: center; justify-content: flex-end; padding: 6px 0; max-width: 1100px; margin: 0 auto; }
 .ppfb-count { font-size: 13px; color: #9ca3af; }
-.pp-float-nav-btn { position: fixed; right: 40px; top: 132px; z-index: 90; padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; }
+.pp-float-nav-btn { position: fixed; right: 40px; top: 76px; z-index: 90; padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; }
 .pp-float-nav-btn:hover { color: #4f7cff; }
-.pp-float-mode { position: fixed; left: 40px; top: 132px; z-index: 90; display: flex; flex-direction: column; gap: 6px; }
+.pp-float-mode { position: fixed; left: 40px; top: 76px; z-index: 90; display: flex; flex-direction: column; gap: 6px; }
 .pp-float-mode button { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; text-align: left; }
 .pp-float-mode button.active { color: #374151; font-weight: 500; }
 .pp-float-mode button:hover { color: #4b5563; }
 .ppfb-nav-btn { padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; color: #4f7cff; white-space: nowrap; }
 .ppfb-nav-btn:hover { background: #f0f4ff; }
 .ppfb-row2 { display: none; }
-.pp-float-filters { position: fixed; right: 20px; top: 140px; z-index: 90; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-radius: 12px; padding: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 8px; width: 170px; }
+.pp-float-filters { position: fixed; right: 20px; top: 80px; z-index: 90; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-radius: 12px; padding: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 8px; width: 170px; }
 .pff-title { font-size: 12px; font-weight: 600; color: #9ca3af; margin-bottom: 2px; }
-.pp-scroll { padding-top: 100px; background: #f5f7fa; min-height: 100vh; }
+.pp-scroll { padding-top: 60px; background: #f5f7fa; min-height: 100vh; }
 
 .pp-list-wrap { max-width: 900px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
 .pp-empty { text-align: center; padding: 60px 0; color: #9ca3af; }
@@ -566,8 +566,8 @@ onMounted(async () => {
 .side-arrow:disabled { opacity: 0.15; cursor: default; }
 .side-arrow-left { left: 80px; }
 .side-arrow-right { right: 80px; }
-.pps-main { flex: 1; overflow-y: auto; padding: 20px 40px; }
-.pps-nav { width: 200px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; position: sticky; top: 120px; align-self: flex-start; max-height: calc(100vh - 160px); }
+.pps-main { flex: 1; overflow-y: auto; padding: 8px 40px 20px; }
+.pps-nav { width: 200px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; position: sticky; top: 80px; align-self: flex-start; max-height: calc(100vh - 120px); }
 .pps-nav-title { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
 .pps-nav-close { background: none; border: none; cursor: pointer; font-size: 16px; color: #9ca3af; padding: 2px 6px; border-radius: 4px; }
 .pps-nav-close:hover { background: #f3f4f6; color: #374151; }
