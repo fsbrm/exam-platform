@@ -2,7 +2,7 @@
   <div class="auth-page">
     <div class="auth-card card">
       <h2 class="auth-title">登录</h2>
-      <p class="auth-subtitle">欢迎回到智备考，请登录您的账号</p>
+      <p class="auth-subtitle">欢迎回到拾了智，请登录您的账号</p>
 
       <!-- Error Alert -->
       <transition name="el-fade-in">

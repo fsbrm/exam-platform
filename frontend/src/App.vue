@@ -37,7 +37,7 @@
         <template v-else>
         <router-link to="/" class="logo">
           <span class="logo-icon">🎓</span>
-          <span class="logo-text">408真题</span>
+          <span class="logo-text">拾了智</span>
         </router-link>
         <nav class="main-nav">
           <router-link to="/" class="nav-item" active-class="nav-active">
