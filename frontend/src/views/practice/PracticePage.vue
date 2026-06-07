@@ -16,8 +16,8 @@
             <el-radio-button value="single">单题</el-radio-button>
           </el-radio-group>
           <span class="ppfb-count">{{ viewMode === 'list' ? filteredListQuestions.length : questions.length }} 题</span>
-          <button v-if="viewMode === 'single'" class="ppfb-nav-btn" @click="navOpen = !navOpen">
-            {{ navOpen ? '关闭' : '题号' }}
+          <button v-if="viewMode === 'single'" class="ppfb-nav-btn" @click="navOpen = !navOpen" :title="navOpen?'收起题号':'题号导航'">
+            <el-icon :size="14"><List /></el-icon> {{ navOpen ? '收起' : '题号' }}
           </button>
         </div>
         <div v-if="viewMode === 'list'" class="ppfb-row2">
@@ -94,6 +94,10 @@
           </div>
         </div>
         <div v-if="viewMode === 'single' && currentQuestion" class="pp-single-wrap">
+          <!-- Left arrow -->
+          <button class="side-arrow side-arrow-left" @click="prevQuestion" :disabled="currentIndex===0" :style="{visibility: currentIndex===0 ? 'hidden' : 'visible'}">
+            <el-icon :size="28"><ArrowLeft /></el-icon>
+          </button>
           <main class="pps-main">
             <div class="sl-q-card">
               <div class="sl-q-header">
@@ -146,8 +150,15 @@
               </div>
             </div>
           </main>
+          <!-- Right arrow -->
+          <button class="side-arrow side-arrow-right" @click="nextQuestion" :disabled="currentIndex>=questions.length-1" :style="{visibility: currentIndex>=questions.length-1 ? 'hidden' : 'visible'}">
+            <el-icon :size="28"><ArrowRight /></el-icon>
+          </button>
           <aside class="pps-nav" v-show="navOpen">
-            <div class="pps-nav-title">题号</div>
+            <div class="pps-nav-title">
+              <span>题号导航</span>
+              <button class="pps-nav-close" @click="navOpen=false">✕</button>
+            </div>
             <div class="pps-nav-grid">
               <div v-for="(q, idx) in choiceQuestions" :key="'sn'+q.id" class="pps-nav-num" :class="{ active: currentIndex===questions.indexOf(q), correct: q._correct===true, wrong: q._correct===false, done: q._submitted }" @click="loadAnswer(questions.indexOf(q))">{{ questions.indexOf(q) + 1 }}</div>
             </div>
@@ -522,10 +533,17 @@ onMounted(async () => {
 
 .pp-list-wrap { max-width: 1000px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
 .pp-empty { text-align: center; padding: 60px 0; color: #9ca3af; }
-.pp-single-wrap { max-width: 1400px; margin: 0 auto; display: flex; height: calc(100vh - 166px); }
-.pps-main { flex: 1; overflow-y: auto; padding: 20px; }
-.pps-nav { width: 180px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; }
-.pps-nav-title { font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
+.pp-single-wrap { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-start; height: calc(100vh - 166px); position: relative; }
+.side-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e5e7eb; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #4b5563; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.15s; }
+.side-arrow:hover:not(:disabled) { background: #4f7cff; color: white; border-color: #4f7cff; box-shadow: 0 4px 12px rgba(79,124,255,0.3); }
+.side-arrow:disabled { opacity: 0.3; cursor: default; }
+.side-arrow-left { left: -22px; }
+.side-arrow-right { right: -22px; }
+.pps-main { flex: 1; overflow-y: auto; padding: 20px 40px; }
+.pps-nav { width: 200px; flex-shrink: 0; background: white; border-left: 1px solid #e5e7eb; overflow-y: auto; padding: 16px; }
+.pps-nav-title { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
+.pps-nav-close { background: none; border: none; cursor: pointer; font-size: 16px; color: #9ca3af; padding: 2px 6px; border-radius: 4px; }
+.pps-nav-close:hover { background: #f3f4f6; color: #374151; }
 .pps-nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
 .pps-nav-num { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; background: #f3f4f6; color: #6b7280; transition: all 0.15s; }
 .pps-nav-num:hover { background: #e0e7ff; color: #4f7cff; }
