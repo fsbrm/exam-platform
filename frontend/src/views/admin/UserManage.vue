@@ -78,18 +78,36 @@
         </el-table-column>
         <el-table-column prop="totalDone" label="总刷题" width="80" />
         <el-table-column prop="lastActive" label="最后活跃" width="160" />
-        <el-table-column label="操作" width="220">
+        <el-table-column label="操作" width="120">
           <template #default="{row}">
+            <el-button size="small" type="primary" @click="openEdit(row)">编辑</el-button>
             <el-button size="small" @click="viewUser(row)">详情</el-button>
-            <el-button size="small" :type="row.status===0?'success':'warning'" @click="toggleStatus(row)">{{ row.status===0?'启用':'禁用' }}</el-button>
-            <el-button size="small" v-if="row.role!=='ADMIN'" type="danger" @click="changeRole(row,'ADMIN')">升管</el-button>
-            <el-button size="small" v-if="row.role==='ADMIN'" @click="changeRole(row,'USER')">降权</el-button>
-            <el-button size="small" plain @click="resetPwd(row)">改密</el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination v-model:current-page="userPage" :page-size="15" :total="userTotal" layout="prev,pager,next" @current-change="loadUsers" style="margin-top:12px;justify-content:center" small />
     </div>
+
+    <!-- User Edit Dialog -->
+    <el-dialog v-model="showEdit" :title="'编辑用户: '+editUser?.username" width="460px">
+      <div v-if="editUser" class="edit-dlg">
+        <div class="ed-row"><span class="ed-label">用户名</span><span class="ed-val">{{ editUser.username }}</span></div>
+        <div class="ed-row"><span class="ed-label">昵称</span><span class="ed-val">{{ editUser.nickname }}</span></div>
+        <div class="ed-row"><span class="ed-label">角色</span>
+          <el-radio-group v-model="editUser.role" size="small"><el-radio value="USER">普通用户</el-radio><el-radio value="ADMIN">管理员</el-radio></el-radio-group>
+        </div>
+        <div class="ed-row"><span class="ed-label">状态</span>
+          <el-switch v-model="editUser._statusOn" active-text="正常" inactive-text="禁用" size="small" />
+        </div>
+        <div class="ed-row"><span class="ed-label">新密码</span>
+          <el-input v-model="newPassword" placeholder="留空则不修改" size="small" show-password style="width:200px" />
+        </div>
+        <div class="ed-actions">
+          <el-button @click="showEdit=false">取消</el-button>
+          <el-button type="primary" @click="saveEdit" :loading="savingEdit">保存修改</el-button>
+        </div>
+      </div>
+    </el-dialog>
 
     <!-- User Detail Dialog -->
     <el-dialog v-model="showDetail" :title="'用户详情: '+detailUser?.nickname" width="700px">
@@ -180,9 +198,28 @@ async function toggleStatus(row:any){
 async function changeRole(row:any,role:string){
   try{await api.put(`/admin/users/${row.id}/role`,{role}); row.role=role; ElMessage.success('角色已更新')}catch{}
 }
-async function resetPwd(row:any){
-  try{const { value } = await ElMessageBox.prompt(`请输入 ${row.username} 的新密码（至少6位）`,'重置密码',{confirmButtonText:'确定',cancelButtonText:'取消',inputType:'text',inputValidator:(v:string)=>{if(!v||v.length<6)return'密码至少6位';return true}}); if(!value)return
-  await api.put(`/admin/users/${row.id}/password`,{password:value}); ElMessage.success('密码已重置')}catch{}
+// User edit
+const showEdit = ref(false)
+const editUser = ref<any>(null)
+const newPassword = ref('')
+const savingEdit = ref(false)
+function openEdit(row: any) {
+  editUser.value = { ...row, _statusOn: row.status !== 0 }
+  newPassword.value = ''
+  showEdit.value = true
+}
+async function saveEdit() {
+  if (!editUser.value) return
+  savingEdit.value = true
+  try {
+    const u = editUser.value
+    await api.put(`/admin/users/${u.id}/role`, { role: u.role })
+    await api.put(`/admin/users/${u.id}/status`, { status: u._statusOn ? 1 : 0 })
+    if (newPassword.value) await api.put(`/admin/users/${u.id}/password`, { password: newPassword.value })
+    ElMessage.success('修改已保存')
+    showEdit.value = false
+    loadUsers()
+  } catch {} finally { savingEdit.value = false }
 }
 async function viewUser(u:any){
   try{const r:any=await api.get(`/admin/users/${u.id}`); if(r.code===200){
@@ -213,4 +250,9 @@ h2{margin-bottom:16px}h4{margin:0 0 10px;font-size:14px}
 .online-dot{width:8px;height:8px;border-radius:50%;background:#10b981}
 .empty{color:#9ca3af;font-size:13px;text-align:center;padding:20px}
 .card{padding:16px;background:white;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.edit-dlg{display:flex;flex-direction:column;gap:16px}
+.ed-row{display:flex;align-items:center;gap:12px}
+.ed-label{width:60px;font-size:13px;color:#6b7280;flex-shrink:0}
+.ed-val{font-size:13px;color:#1f2937}
+.ed-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
 </style>
