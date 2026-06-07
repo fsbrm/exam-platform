@@ -8,6 +8,18 @@
           <button class="ph-back" @click="$router.back()"><span>&larr;</span> 返回真题总览</button>
           <span class="ph-title">刷题练习</span>
           <span class="ph-spacer"></span>
+          <div class="ph-settings-wrap">
+            <button class="ph-settings-btn" @click.stop="showSettings = !showSettings" title="刷题设置">
+              <el-icon :size="18"><Setting /></el-icon>
+            </button>
+            <div class="ph-settings-drop" v-if="showSettings">
+              <div class="psd-item">
+                <span>做题反馈</span>
+                <el-switch v-model="feedbackEnabled" size="small" @change="saveFeedbackSetting" />
+              </div>
+              <div class="psd-hint">答对飘过 Niceeee~~~<br>答错飘过 我真受不了嘞！</div>
+            </div>
+          </div>
           <router-link to="/papers" class="ph-link">真题总览</router-link>
         </template>
         <!-- Normal navigation -->
@@ -64,12 +76,18 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
 
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
+
+// Practice settings
+const showSettings = ref(false)
+const feedbackEnabled = ref(localStorage.getItem('practice_feedback') === 'true')
+function saveFeedbackSetting() { localStorage.setItem('practice_feedback', String(feedbackEnabled.value)) }
 
 function logout() {
   userStore.logout()
@@ -161,4 +179,10 @@ a { text-decoration: none; }
 .ph-spacer { flex: 1; }
 .ph-link { font-size: 13px; color: #6b7280; padding: 6px 12px; border-radius: 6px; }
 .ph-link:hover { background: #f0f4ff; color: #4f7cff; }
+.ph-settings-wrap { position: relative; }
+.ph-settings-btn { background: none; border: none; cursor: pointer; padding: 6px 8px; border-radius: 6px; color: #9ca3af; display: flex; align-items: center; }
+.ph-settings-btn:hover { background: #f0f4ff; color: #4f7cff; }
+.ph-settings-drop { position: absolute; top: 40px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 16px; z-index: 200; min-width: 200px; }
+.psd-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #374151; margin-bottom: 8px; }
+.psd-hint { font-size: 11px; color: #9ca3af; line-height: 1.6; }
 </style>

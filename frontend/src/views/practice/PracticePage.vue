@@ -222,6 +222,18 @@ const singleHintLevel = ref(0)
 const showNotePanel = ref(false)
 const currentNote = ref('')
 const showVideos = ref(false)
+const feedbackEnabled = () => localStorage.getItem('practice_feedback') === 'true'
+
+// Floating feedback animation
+function showFeedback(isCorrect: boolean) {
+  if (!feedbackEnabled()) return
+  const el = document.createElement('div')
+  el.className = 'feedback-float ' + (isCorrect ? 'fb-correct' : 'fb-wrong')
+  el.textContent = isCorrect ? 'Niceeee~~~ 🎉' : '我真受不了嘞！ 😤'
+  document.body.appendChild(el)
+  // Auto-remove after animation ends
+  setTimeout(() => el.remove(), 3000)
+}
 const questionVideos = ref([])
 const knowledgeVideos = ref([])
 const videoDataCache = {}
@@ -332,6 +344,7 @@ async function submitListAnswer(q, qi) {
       q._mastery = res.data.isCorrect ? 'mastered' : 'dontknow'
       if (viewMode.value === 'single') currentMastery.value = q._mastery
       await markMasteryForQuestion(q, q._mastery)
+      showFeedback(res.data.isCorrect)
     }
   } catch {}
 }
@@ -366,6 +379,7 @@ async function submitAnswer() {
       q._mastery = res.data.isCorrect ? 'mastered' : 'dontknow'
       currentMastery.value = q._mastery
       await markMasteryForQuestion(q, q._mastery)
+      showFeedback(res.data.isCorrect)
     }
   } catch {}
 }
@@ -685,4 +699,22 @@ onMounted(async () => {
 .loading-box { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
 .loading-box p { margin-top: 16px; color: #9ca3af; }
 .empty-box { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 16px; }
+</style>
+
+<!-- unscoped: feedback animation -->
+<style>
+.feedback-float {
+  position: fixed; z-index: 9999; top: 40%;
+  font-size: 36px; font-weight: 900; pointer-events: none;
+  animation: fb-slide 3s ease-out forwards;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+.fb-correct { color: #10b981; left: -100px; }
+.fb-wrong { color: #ef4444; left: -100px; }
+@keyframes fb-slide {
+  0%   { transform: translateX(0); opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { opacity: 1; transform: translateX(calc(100vw + 100px)); }
+  100% { opacity: 0; transform: translateX(calc(100vw + 200px)); }
+}
 </style>
