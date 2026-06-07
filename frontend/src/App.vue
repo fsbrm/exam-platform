@@ -17,7 +17,6 @@
                 <span>做题反馈</span>
                 <el-switch v-model="feedbackEnabled" size="small" @change="saveFeedbackSetting" />
               </div>
-              <div class="psd-hint">答对飘过 Niceeee~~~<br>答错飘过 我真受不了嘞！</div>
             </div>
           </div>
           <router-link to="/papers" class="ph-link">真题总览</router-link>
@@ -182,7 +181,6 @@ a { text-decoration: none; }
 .ph-settings-wrap { position: relative; }
 .ph-settings-btn { background: none; border: none; cursor: pointer; padding: 6px 8px; border-radius: 6px; color: #9ca3af; display: flex; align-items: center; }
 .ph-settings-btn:hover { background: #f0f4ff; color: #4f7cff; }
-.ph-settings-drop { position: absolute; top: 40px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 16px; z-index: 200; min-width: 200px; }
+.ph-settings-drop { position: absolute; top: 40px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 14px 16px; z-index: 200; }
 .psd-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #374151; margin-bottom: 8px; }
-.psd-hint { font-size: 11px; color: #9ca3af; line-height: 1.6; }
 </style>
