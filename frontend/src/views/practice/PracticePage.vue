@@ -11,10 +11,6 @@
     <template v-else>
       <div class="pp-fixed-bar">
         <div class="ppfb-row1">
-          <el-radio-group v-model="viewMode" size="small">
-            <el-radio-button value="list">列表</el-radio-button>
-            <el-radio-button value="single">单题</el-radio-button>
-          </el-radio-group>
           <span class="ppfb-count">{{ viewMode === 'list' ? filteredListQuestions.length : questions.length }} 题</span>
           <button v-if="viewMode === 'single'" class="ppfb-nav-btn" @click="navOpen = !navOpen" :title="navOpen?'收起题号':'题号导航'">
             <el-icon :size="14"><List /></el-icon> {{ navOpen ? '收起' : '题号' }}
@@ -40,6 +36,11 @@
             <el-option v-for="(q, idx) in filteredListQuestions" :key="q.id" :label="(q.year||'')+'年'+(q.questionNumber||idx+1)+'题'" :value="idx" />
           </el-select>
         </div>
+      </div>
+      <!-- Floating mode switch -->
+      <div class="pp-float-mode">
+        <button :class="{active:viewMode==='list'}" @click="viewMode='list'">列表</button>
+        <button :class="{active:viewMode==='single'}" @click="viewMode='single'">单题</button>
       </div>
       <div class="pp-scroll">
         <div v-if="viewMode === 'list'" class="pp-list-wrap">
@@ -548,8 +549,12 @@ onMounted(async () => {
 
 <style scoped>
 .pp-fixed-bar { position: fixed; top: 56px; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.06); padding: 0 24px; }
-.ppfb-row1 { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; max-width: 1100px; margin: 0 auto; }
-.ppfb-count { font-size: 13px; color: #9ca3af; margin-left: 8px; }
+.ppfb-row1 { display: flex; align-items: center; justify-content: flex-end; padding: 6px 0; max-width: 1100px; margin: 0 auto; }
+.ppfb-count { font-size: 13px; color: #9ca3af; }
+.pp-float-mode { position: fixed; left: 28px; top: 132px; z-index: 90; display: flex; flex-direction: column; gap: 4px; }
+.pp-float-mode button { padding: 5px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; color: #9ca3af; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); transition: color 0.2s; white-space: nowrap; text-align: left; }
+.pp-float-mode button.active { color: #374151; font-weight: 500; }
+.pp-float-mode button:hover { color: #4b5563; }
 .ppfb-nav-btn { padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; color: #4f7cff; white-space: nowrap; }
 .ppfb-nav-btn:hover { background: #f0f4ff; }
 .ppfb-row2 { display: none; }
