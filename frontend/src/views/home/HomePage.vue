@@ -7,12 +7,6 @@
 
     <div class="main-layout">
       <div class="main-col">
-        <section class="stats-row clickable" v-if="userStore.isLoggedIn" @click="$router.push('/papers')">
-          <div class="stat-card c1"><div class="sc-num">{{ overview.totalQuestions || 0 }}</div><div class="sc-unit">题已刷</div></div>
-          <div class="stat-card c2"><div class="sc-num">{{ overview.accuracy || 0 }}%</div><div class="sc-unit">正确率</div></div>
-          <span class="stats-arrow">▸ 开始刷题</span>
-        </section>
-
         <template v-if="userStore.isLoggedIn">
           <div class="two-col">
             <div class="section-card">
@@ -293,5 +287,5 @@ watch(lbTab, loadLeaderboard)
 .lb-name{flex:1;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lb-val{color:#6b7280;font-weight:600;flex-shrink:0}
 .lb-empty{text-align:center;padding:16px;color:#9ca3af;font-size:12px}
 .cal-footer{text-align:center;font-size:11px;color:#9ca3af;margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0}
-@media(max-width:768px){.main-layout{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.subj-cards{grid-template-columns:repeat(2,1fr)}.sc-num{font-size:28px}.stats-arrow{display:none}.hero h1{font-size:22px}.hero{padding:16px}.home-page{padding:0 12px}}
+@media(max-width:768px){.main-layout{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.subj-cards{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:22px}.hero{padding:16px}.home-page{padding:0 12px}}
 </style>
