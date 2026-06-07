@@ -159,10 +159,6 @@
               <span>题号导航</span>
               <button class="pps-nav-close" @click="navOpen=false">✕</button>
             </div>
-            <!-- Page up arrow -->
-            <button class="pps-nav-page-btn" :disabled="navPage===0" @click="navPage--">
-              <el-icon :size="14"><ArrowUp /></el-icon>
-            </button>
             <div class="pps-nav-grid">
               <div v-for="(q, idx) in paginatedNavQuestions" :key="'sn'+q.id" class="pps-nav-num"
                 :class="{ active: currentIndex===navPage*NAV_PAGE_SIZE+idx, correct: q._correct===true, wrong: q._correct===false, done: q._submitted }"
@@ -170,11 +166,11 @@
                 {{ navPage * NAV_PAGE_SIZE + idx + 1 }}
               </div>
             </div>
-            <!-- Page down arrow -->
-            <button class="pps-nav-page-btn" :disabled="navPage>=navTotalPages-1" @click="navPage++">
-              <el-icon :size="14"><ArrowDown /></el-icon>
-            </button>
-            <div class="pps-nav-page-info">{{ navPage+1 }}/{{ navTotalPages }} 页</div>
+            <div class="pps-nav-pager">
+              <button :disabled="navPage===0" @click="navPage--">◀</button>
+              <span>{{ navPage+1 }} / {{ navTotalPages }}</span>
+              <button :disabled="navPage>=navTotalPages-1" @click="navPage++">▶</button>
+            </div>
             <div class="pps-nav-legend"><span><i class="pnl-dot active"></i>当前</span><span><i class="pnl-dot done"></i>已答</span><span><i class="pnl-dot correct"></i>正确</span><span><i class="pnl-dot wrong"></i>错误</span></div>
           </aside>
         </div>
@@ -566,10 +562,11 @@ onMounted(async () => {
 .pps-nav-title { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
 .pps-nav-close { background: none; border: none; cursor: pointer; font-size: 16px; color: #9ca3af; padding: 2px 6px; border-radius: 4px; }
 .pps-nav-close:hover { background: #f3f4f6; color: #374151; }
-.pps-nav-page-btn { width: 100%; padding: 4px 0; border: none; background: #f9fafb; cursor: pointer; color: #6b7280; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin: 6px 0; transition: all 0.15s; }
-.pps-nav-page-btn:hover:not(:disabled) { background: #eef2ff; color: #4f7cff; }
-.pps-nav-page-btn:disabled { opacity: 0.3; cursor: default; }
-.pps-nav-page-info { text-align: center; font-size: 10px; color: #9ca3af; margin-bottom: 4px; }
+.pps-nav-pager { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; }
+.pps-nav-pager button { width: 24px; height: 24px; border: 1px solid #e5e7eb; border-radius: 6px; background: white; cursor: pointer; font-size: 10px; color: #6b7280; display: flex; align-items: center; justify-content: center; }
+.pps-nav-pager button:hover:not(:disabled) { background: #eef2ff; color: #4f7cff; border-color: #4f7cff; }
+.pps-nav-pager button:disabled { opacity: 0.25; cursor: default; }
+.pps-nav-pager span { font-size: 11px; color: #6b7280; font-weight: 500; }
 .pps-nav-page-ctl { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 10px; }
 .pps-nav-page-sm { border: none; background: #f3f4f6; cursor: pointer; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #6b7280; }
 .pps-nav-page-sm:hover:not(:disabled) { background: #eef2ff; color: #4f7cff; }
