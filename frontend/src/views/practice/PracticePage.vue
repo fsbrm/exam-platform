@@ -298,6 +298,9 @@ async function submitListAnswer(q, qi) {
       q._submitted = true; q._correct = res.data.isCorrect
       q._answer = res.data.answer || q.answer
       answeredCount.value++; if (q._correct) correctCount.value++
+      // Auto-mark mastery: 答对→掌握, 答错→不会
+      q._mastery = res.data.isCorrect ? 'mastered' : 'dontknow'
+      await markMasteryForQuestion(q, q._mastery)
     }
   } catch {}
 }
